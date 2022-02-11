@@ -250,7 +250,7 @@ export function setLogger(logger: Logger){
 
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.INFO}
- * @param {string} message
+ * @param {LoggerMessage} message
  * @param {any[]} args
  *
  * @function info
@@ -260,7 +260,7 @@ export function setLogger(logger: Logger){
 export const info = (message: LoggerMessage, ...args: any[]) => getLogger().info(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.ALL}
- * @param {string} message
+ * @param {LoggerMessage} message
  * @param {any[]} args
  *
  * @function all
@@ -270,7 +270,7 @@ export const info = (message: LoggerMessage, ...args: any[]) => getLogger().info
 export const all = (message: LoggerMessage, ...args: any[]) => getLogger().all(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.DEBUG}
- * @param {string} message
+ * @param {LoggerMessage} message
  * @param {any[]} args
  *
  * @function debug
@@ -280,7 +280,7 @@ export const all = (message: LoggerMessage, ...args: any[]) => getLogger().all(m
 export const debug = (message: LoggerMessage, ...args: any[]) => getLogger().debug(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.WARN}
- * @param {string} message
+ * @param {LoggerMessage} message
  * @param {any[]} args
  *
  * @function warn
@@ -290,7 +290,7 @@ export const debug = (message: LoggerMessage, ...args: any[]) => getLogger().deb
 export const warn = (message: LoggerMessage, ...args: any[]) => getLogger().warn(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.ERROR}
- * @param {string} message
+ * @param {LoggerMessage} message
  * @param {any[]} args
  *
  * @function error
@@ -300,7 +300,7 @@ export const warn = (message: LoggerMessage, ...args: any[]) => getLogger().warn
 export const error = (message: LoggerMessage, ...args: any[]) => getLogger().error(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.CRITICAL}
- * @param {string} message
+ * @param {LoggerMessage} message
  * @param {any[]} args
  *
  * @function critical
