@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logging logging/utils.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Logging Engine</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                            <a class="dropdown-item" href="tutorial-HowToUse.html">
+                                HowToUse
+                            </a>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://gitlab.ubitech.eu/glass-project/wallet/logging#readme"
+                        >
+                            Github Repository
+                        </a>
+                    
+                        <a
+                            class="link user-link "
+                            href="https://www.pdmfc.com"
+                        >
+                            PDM&FC
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+                <div class="search-wrapper">
+                    <input id="search" type="text" placeholder="Search docs..." class="input">
+                </div>
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-logging.html">logging</a></li></ul><h3>Namespaces</h3><ul><li><a href="db-decorators.errors.html">errors</a></li><li><a href="logging.logging.html">logging</a></li></ul><h3>Classes</h3><ul><li><a href="CriticalError.html">CriticalError</a></li><li><a href="LoggedError.html">LoggedError</a></li><li><a href="LoggerImp.html">LoggerImp</a></li><li><a href="StopWatch.html">StopWatch</a></li></ul><h3>Interfaces</h3><ul><li><a href="logging.logging.Logger.html">Logger</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DAYS_OF_WEEK_NAMES">DAYS_OF_WEEK_NAMES</a></li><li><a href="global.html#MONTH_NAMES">MONTH_NAMES</a></li></ul></div><div class="category"><h2>Constants</h2><h3>Global</h3><ul><li><a href="global.html#DEFAULT_TIMESTAMP_FORMAT">DEFAULT_TIMESTAMP_FORMAT</a></li><li><a href="global.html#LOGGER_LEVELS">LOGGER_LEVELS</a></li></ul></div><div class="category"><h2>Decorators</h2><h3>Global</h3><ul><li><a href="global.html#logAsync">logAsync</a></li><li><a href="global.html#logSync">logSync</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>logging/utils.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Util function to provide string format functionality similar to C#'s string.format
+ *
+ * @param {string} string
+ * @param {string} args replacements made by order of appearance (replacement0 wil replace {0} and so on)
+ * @return {string} formatted string
+ *
+ * @function stringFormat
+ *
+ * @memberOf logging.logging
+ */
+import {DAYS_OF_WEEK_NAMES, MONTH_NAMES} from "./constants";
+
+export function stringFormat(string: string, ...args: string[]){
+    return string.replace(/{(\d+)}/g, function(match, number) {
+        return typeof args[number] !== 'undefined'
+            ? args[number]
+            : match;
+    });
+}
+
+/**
+ * Date Format Handling
+ * https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
+ *
+ * &lt;pre>
+ *      Using similar formatting as Moment.js, Class DateTimeFormatter (Java), and Class SimpleDateFormat (Java),
+ *      I implemented a comprehensive solution formatDate(date, patternStr) where the code is easy to read and modify.
+ *      You can display date, time, AM/PM, etc.
+ *
+ *      Date and Time Patterns
+ *      yy = 2-digit year; yyyy = full year
+ *      M = digit month; MM = 2-digit month; MMM = short month name; MMMM = full month name
+ *      EEEE = full weekday name; EEE = short weekday name
+ *      d = digit day; dd = 2-digit day
+ *      h = hours am/pm; hh = 2-digit hours am/pm; H = hours; HH = 2-digit hours
+ *      m = minutes; mm = 2-digit minutes; aaa = AM/PM
+ *      s = seconds; ss = 2-digit seconds
+ *      S = miliseconds
+ * &lt;/pre>
+ *
+ * @param {Date} date
+ * @param {string} [patternStr] defaults to 'yyyy/MM/dd'
+ * @return {string} the formatted date
+ *
+ * @function formatDate
+ *
+ * @memberOf logging.logging
+ */
+export function formatDate(date: Date, patternStr: string = 'yyyy/MM/dd'){
+    const day: number = date.getDate(),
+        month: number = date.getMonth(),
+        year: number = date.getFullYear(),
+        hour: number = date.getHours(),
+        minute: number = date.getMinutes(),
+        second: number = date.getSeconds(),
+        miliseconds: number = date.getMilliseconds(),
+        h: number = hour % 12,
+        hh: string = twoDigitPad(h),
+        HH: string = twoDigitPad(hour),
+        mm: string = twoDigitPad(minute),
+        ss: string = twoDigitPad(second),
+        aaa: string = hour &lt; 12 ? 'AM' : 'PM',
+        EEEE: string = DAYS_OF_WEEK_NAMES[date.getDay()],
+        EEE: string = EEEE.substr(0, 3),
+        dd: string = twoDigitPad(day),
+        M: number = month + 1,
+        MM: string = twoDigitPad(M),
+        MMMM: string = MONTH_NAMES[month],
+        MMM : string= MMMM.substr(0, 3),
+        yyyy: string = year + "",
+        yy: string = yyyy.substr(2, 2)
+    ;
+    // checks to see if month name will be used
+    patternStr = patternStr
+        .replace('hh', hh).replace('h', h.toString())
+        .replace('HH', HH).replace('H', hour.toString())
+        .replace('mm', mm).replace('m', minute.toString())
+        .replace('ss', ss).replace('s', second.toString())
+        .replace('S', miliseconds.toString())
+        .replace('dd', dd).replace('d', day.toString())
+
+        .replace('EEEE', EEEE).replace('EEE', EEE)
+        .replace('yyyy', yyyy)
+        .replace('yy', yy)
+        .replace('aaa', aaa);
+    if (patternStr.indexOf('MMM') > -1) {
+        patternStr = patternStr
+            .replace('MMMM', MMMM)
+            .replace('MMM', MMM);
+    }
+    else {
+        patternStr = patternStr
+            .replace('MM', MM)
+            .replace('M', M.toString());
+    }
+    return patternStr;
+}
+
+/**
+ *
+ * @param {number} num
+ *
+ * @return {string}
+ *
+ * @function twoDigitPad
+ *
+ * @memberOf logging.logging
+ */
+export function twoDigitPad(num: number): string {
+    return num &lt; 10 ? "0" + num : num.toString();
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+<script src="scripts/search.js"> </script>
+
+
+</body>
+</html>
