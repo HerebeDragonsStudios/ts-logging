@@ -257,7 +257,7 @@ export function setLogger(logger: Logger){
  *
  * @memberOf db-decorators.logging
  */
-export const info = (message: string, ...args: any[]) => getLogger().info(message, ...args);
+export const info = (message: LoggerMessage, ...args: any[]) => getLogger().info(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.ALL}
  * @param {string} message
@@ -267,7 +267,7 @@ export const info = (message: string, ...args: any[]) => getLogger().info(messag
  *
  * @memberOf db-decorators.logging
  */
-export const all = (message: string, ...args: any[]) => getLogger().all(message, ...args);
+export const all = (message: LoggerMessage, ...args: any[]) => getLogger().all(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.DEBUG}
  * @param {string} message
@@ -277,7 +277,7 @@ export const all = (message: string, ...args: any[]) => getLogger().all(message,
  *
  * @memberOf db-decorators.logging
  */
-export const debug = (message: string, ...args: any[]) => getLogger().debug(message, ...args);
+export const debug = (message: LoggerMessage, ...args: any[]) => getLogger().debug(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.WARN}
  * @param {string} message
@@ -287,7 +287,7 @@ export const debug = (message: string, ...args: any[]) => getLogger().debug(mess
  *
  * @memberOf db-decorators.logging
  */
-export const warn = (message: string, ...args: any[]) => getLogger().warn(message, ...args);
+export const warn = (message: LoggerMessage, ...args: any[]) => getLogger().warn(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.ERROR}
  * @param {string} message
@@ -297,7 +297,7 @@ export const warn = (message: string, ...args: any[]) => getLogger().warn(messag
  *
  * @memberOf db-decorators.logging
  */
-export const error = (message: string, ...args: any[]) => getLogger().error(message, ...args);
+export const error = (message: LoggerMessage, ...args: any[]) => getLogger().error(message, ...args);
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.CRITICAL}
  * @param {string} message
@@ -307,4 +307,4 @@ export const error = (message: string, ...args: any[]) => getLogger().error(mess
  *
  * @memberOf db-decorators.logging
  */
-export const critical = (message: string, ...args: any[]) => getLogger().critical(message, ...args);
+export const critical = (message: LoggerMessage, ...args: any[]) => getLogger().critical(message, ...args);
