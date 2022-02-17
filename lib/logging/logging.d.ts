@@ -28,10 +28,10 @@ export declare class LoggerImp implements Logger {
 }
 export declare function getLogger(): Logger;
 export declare function setLogger(logger: Logger): void;
-export declare const info: (message: string, ...args: any[]) => void;
-export declare const all: (message: string, ...args: any[]) => void;
-export declare const debug: (message: string, ...args: any[]) => void;
-export declare const warn: (message: string, ...args: any[]) => void;
-export declare const error: (message: string, ...args: any[]) => void;
-export declare const critical: (message: string, ...args: any[]) => void;
+export declare const info: (message: LoggerMessage, ...args: any[]) => void;
+export declare const all: (message: LoggerMessage, ...args: any[]) => void;
+export declare const debug: (message: LoggerMessage, ...args: any[]) => void;
+export declare const warn: (message: LoggerMessage, ...args: any[]) => void;
+export declare const error: (message: LoggerMessage, ...args: any[]) => void;
+export declare const critical: (message: LoggerMessage, ...args: any[]) => void;
 //# sourceMappingURL=logging.d.ts.map
