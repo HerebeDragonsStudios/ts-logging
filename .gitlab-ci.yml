@@ -1,0 +1,47 @@
+stages:
+  - deploy
+
+default:
+  image: node:12
+
+
+
+  before_script:
+    - |
+      if [[ ! -f package.json ]]; then
+        echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
+        echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#creating-a-project'
+        exit 1
+      fi
+    - NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
+    - NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
+    
+    
+
+npm-deploy:
+  stage: deploy
+  script: 
+    - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
+    - npm publish
+
+  only:
+    - tags
+  except:
+    - branches
+
+pages:
+  image: node:16.13.1
+  stage: deploy
+  script:
+  - npm install
+  - npm run docs
+  - ls -la
+  - mv docs public
+  artifacts:
+    paths:
+    - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - docs/**/*
