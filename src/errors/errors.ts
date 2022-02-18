@@ -17,7 +17,7 @@ export function loggedCallback(this: any, message: LoggerMessage, level: number 
         level = LOGGER_LEVELS.INFO;
     }
 
-    getLogger().report(message instanceof Error ? message : new LoggedError(message), level as number, this.name !== "loggedCallback" ? this : undefined);
+    getLogger().report(message instanceof Error ? message : new LoggedError(message), level as number,this && this.name !== "loggedCallback" ? this : undefined);
     callback(message);
 }
 
