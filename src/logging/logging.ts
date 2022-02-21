@@ -1,5 +1,4 @@
 import {DEFAULT_TIMESTAMP_FORMAT, LOGGER_LEVELS, LOGGING_MSG} from "./constants";
-import {LoggedError} from "../errors";
 import {formatDate, stringFormat} from "./utils";
 
 /**
@@ -17,11 +16,12 @@ export interface Logger {
      * Reports a message
      * @param {LoggerMessage} message
      * @param {number} level
+     * @param {any} [issuer] the Object/process that reports the message
      * @param {any[]} [args]
      *
      * @memberOf Logger
      */
-    report(message: LoggerMessage, level: number, ...args: any[]): void;
+    report(message: LoggerMessage, level: number, issuer: any, ...args: any[]): void;
     /**
      * {@link Logger#report}s a message under {@link LOGGER_LEVELS.ALL}
      * @param {LoggerMessage} message
@@ -118,11 +118,8 @@ export class LoggerImp implements Logger {
      * @protected
      */
     protected buildMessage(message: LoggerMessage, logLevel: number, issuer: any = undefined, ...args: any[]){
-        let stacksTrace: string | undefined = undefined;
-        if (message instanceof Error){
-            stacksTrace = message.stack;
+        if (message instanceof Error)
             message = message.message;
-        }
 
         if (this.logLevel)
             message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}] - ${message}`;
@@ -137,12 +134,11 @@ export class LoggerImp implements Logger {
      *
      * @param {LoggerMessage} message
      * @param {number} level defaults to {@link LOGGER_LEVELS.INFO}
-     * @param {any[]} args
+     * @param {any} [issuer] the object that is calling the report method
+     * @param {any[]} [args] values to replace in the message according to the '{0}' notation
      */
-    report(message: LoggerMessage, level: number = LOGGER_LEVELS.INFO, ...args: any[]) : void {
+    report(message: LoggerMessage, level: number = LOGGER_LEVELS.INFO, issuer: any = undefined, ...args: any[]) : void {
         if (level < this.level)
-            return;
-        if (message instanceof LoggedError && message.logged)
             return;
 
         let reportMethod: Function;
@@ -162,53 +158,48 @@ export class LoggerImp implements Logger {
                 break;
         }
 
-        let finalMessage = this.buildMessage(message, level, undefined, ...args);
+        let finalMessage = this.buildMessage(message, level, issuer, ...args);
         reportMethod(finalMessage);
 
-        if (message instanceof Error && message.stack && this.logStackTrace){
-            console.log(message);
-            reportMethod(this.buildMessage(`\n-- StackStrace:\n${message.stack}`, level));
-        }
-
-        if (message instanceof LoggedError)
-            message.logged = true;
+        if (message instanceof Error && message.stack && this.logStackTrace)
+            reportMethod(this.buildMessage(`\n-- StackStrace:\n{0}`, level, issuer, message.stack));
     }
 
     /**
      * @inheritDoc
      */
-    info(message: LoggerMessage, ...args: any[]): void {
-        this.report(message, LOGGER_LEVELS.INFO, ...args);
+    info(message: LoggerMessage, issuer: any = undefined, ...args: any[]): void {
+        this.report(message, LOGGER_LEVELS.INFO, issuer, ...args);
     }
     /**
      * @inheritDoc
      */
-    all(message: LoggerMessage, ...args: any[]): void {
-        this.report(message, LOGGER_LEVELS.ALL, ...args);
+    all(message: LoggerMessage, issuer: any = undefined, ...args: any[]): void {
+        this.report(message, LOGGER_LEVELS.ALL, issuer, ...args);
     }
     /**
      * @inheritDoc
      */
-    debug(message: LoggerMessage, ...args: any[]): void {
-        this.report(message, LOGGER_LEVELS.DEBUG, ...args);
+    debug(message: LoggerMessage, issuer: any = undefined, ...args: any[]): void {
+        this.report(message, LOGGER_LEVELS.DEBUG, issuer, ...args);
     }
     /**
      * @inheritDoc
      */
-    warn(message: LoggerMessage, ...args: any[]): void {
-        this.report(message, LOGGER_LEVELS.WARN, ...args);
+    warn(message: LoggerMessage, issuer: any = undefined, ...args: any[]): void {
+        this.report(message, LOGGER_LEVELS.WARN, issuer, ...args);
     }
     /**
      * @inheritDoc
      */
-    error(message: LoggerMessage, ...args: any[]): void {
-        this.report(message, LOGGER_LEVELS.ERROR, ...args);
+    error(message: LoggerMessage, issuer: any = undefined, ...args: any[]): void {
+        this.report(message, LOGGER_LEVELS.ERROR, issuer, ...args);
     }
     /**
      * @inheritDoc
      */
-    critical(message: LoggerMessage, ...args: any[]): void {
-        this.report(message, LOGGER_LEVELS.CRITICAL, ...args);
+    critical(message: LoggerMessage, issuer: any = undefined, ...args: any[]): void {
+        this.report(message, LOGGER_LEVELS.CRITICAL, issuer, ...args);
     }
     /**
      * @inheritDoc
@@ -257,7 +248,9 @@ export function setLogger(logger: Logger){
  *
  * @memberOf db-decorators.logging
  */
-export const info = (message: LoggerMessage, ...args: any[]) => getLogger().info(message, ...args);
+export const info = function(this: any, message: LoggerMessage, ...args: any[]) {
+    getLogger().info(message, this, ...args);
+}
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.ALL}
  * @param {LoggerMessage} message
@@ -267,7 +260,9 @@ export const info = (message: LoggerMessage, ...args: any[]) => getLogger().info
  *
  * @memberOf db-decorators.logging
  */
-export const all = (message: LoggerMessage, ...args: any[]) => getLogger().all(message, ...args);
+export const all = function(this: any, message: LoggerMessage, ...args: any[]) {
+    getLogger().all(message, this, ...args);
+}
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.DEBUG}
  * @param {LoggerMessage} message
@@ -277,7 +272,9 @@ export const all = (message: LoggerMessage, ...args: any[]) => getLogger().all(m
  *
  * @memberOf db-decorators.logging
  */
-export const debug = (message: LoggerMessage, ...args: any[]) => getLogger().debug(message, ...args);
+export const debug = function(this: any, message: LoggerMessage, ...args: any[]) {
+    getLogger().debug(message, this, ...args);
+}
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.WARN}
  * @param {LoggerMessage} message
@@ -287,7 +284,9 @@ export const debug = (message: LoggerMessage, ...args: any[]) => getLogger().deb
  *
  * @memberOf db-decorators.logging
  */
-export const warn = (message: LoggerMessage, ...args: any[]) => getLogger().warn(message, ...args);
+export const warn = function(this: any, message: LoggerMessage, ...args: any[]) {
+    getLogger().warn(message, this, ...args);
+}
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.ERROR}
  * @param {LoggerMessage} message
@@ -297,7 +296,9 @@ export const warn = (message: LoggerMessage, ...args: any[]) => getLogger().warn
  *
  * @memberOf db-decorators.logging
  */
-export const error = (message: LoggerMessage, ...args: any[]) => getLogger().error(message, ...args);
+export const error = function(this: any, message: LoggerMessage, ...args: any[]) {
+    getLogger().error(message, this, ...args);
+}
 /**
  * Reports a message to the logger under the level {@link LOGGER_LEVELS.CRITICAL}
  * @param {LoggerMessage} message
@@ -307,4 +308,6 @@ export const error = (message: LoggerMessage, ...args: any[]) => getLogger().err
  *
  * @memberOf db-decorators.logging
  */
-export const critical = (message: LoggerMessage, ...args: any[]) => getLogger().critical(message, ...args);
+export const critical = function(this: any, message: LoggerMessage, ...args: any[]) {
+    getLogger().critical(message, this, ...args);
+}
