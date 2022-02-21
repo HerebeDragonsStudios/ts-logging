@@ -369,7 +369,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line5">line 5</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line4">line 4</a>
             </span>
         </p>
     
@@ -494,7 +494,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line242">line 242</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line245">line 245</a>
             </span>
         </p>
     
@@ -580,7 +580,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line287">line 287</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line290">line 290</a>
             </span>
         </p>
     
@@ -666,7 +666,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line260">line 260</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line263">line 263</a>
             </span>
         </p>
     
@@ -752,7 +752,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line278">line 278</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line281">line 281</a>
             </span>
         </p>
     
@@ -838,7 +838,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line251">line 251</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line254">line 254</a>
             </span>
         </p>
     
@@ -924,7 +924,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line296">line 296</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line299">line 299</a>
             </span>
         </p>
     
@@ -1010,7 +1010,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line269">line 269</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line272">line 272</a>
             </span>
         </p>
     
@@ -1232,7 +1232,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line317">line 317</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line320">line 320</a>
             </span>
         </p>
     
@@ -1269,7 +1269,7 @@
         
         <span class="code-name">
             
-                report<span class="signature">(message, level, args)</span><span class="type-signature"> &rarr; {void}</span>
+                report<span class="signature">(message, level, issuer<span class="signature-attributes">opt</span>, args<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {void}</span>
             
         </span>
     </h4>
@@ -1303,6 +1303,8 @@
             <th>Type</th>
 
             
+            <th>Attributes</th>
+            
 
             
 
@@ -1329,6 +1331,14 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
 
   
 
@@ -1354,10 +1364,53 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
 
   
 
   <td class="description last"><p>defaults to <code>LOGGER_LEVELS.INFO</code></p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>issuer</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">any</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last"><p>the object that is calling the report method</p></td>
 </tr>
 
 
@@ -1379,10 +1432,20 @@
   </td>
 
   
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
 
   
 
-  <td class="description last"></td>
+  <td class="description last"><p>values to replace in the message according to the '{0}' notation</p></td>
 </tr>
 
 
@@ -1437,7 +1500,7 @@
         <p class="tag-source">
             <a href="logging_logging.ts.html" class="button">View Source</a>
             <span>
-                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line326">line 326</a>
+                <a href="logging_logging.ts.html">logging/logging.ts</a>, <a href="logging_logging.ts.html#line330">line 330</a>
             </span>
         </p>
     
