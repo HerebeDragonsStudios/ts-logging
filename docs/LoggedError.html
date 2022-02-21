@@ -125,7 +125,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>LoggedError<span class="signature">(error, level)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>LoggedError<span class="signature">(error, issuer<span class="signature-attributes">opt</span>, level, args<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -149,18 +149,20 @@
         
         <span class="code-name">
             
-                new LoggedError<span class="signature">(error, level)</span><span class="type-signature"></span>
+                new LoggedError<span class="signature">(error, issuer<span class="signature-attributes">opt</span>, level, args<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
             
         </span>
     </h4>
     
 
     
-    <p class="summary"><p>Wrapper Class for Logged Errors</p>.</p>
+    <p class="summary"><p>Wrapper Class for Logged Errors
+Will trigger a call to the logger if it hasn't been logged before oo if it's being called at a higher level</p>.</p>
     
     
     <div class="description">
-        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script><p>Wrapper Class for Logged Errors</p>
+        <script type="text/javascript" src="https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"></script><p>Wrapper Class for Logged Errors
+Will trigger a call to the logger if it hasn't been logged before oo if it's being called at a higher level</p>
     </div>
     
 
@@ -184,6 +186,8 @@
 
             <th>Type</th>
 
+            
+            <th>Attributes</th>
             
 
             
@@ -211,6 +215,49 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last"></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>issuer</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">any</code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
 
   
 
@@ -236,10 +283,53 @@
   </td>
 
   
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
 
   
 
   <td class="description last"><p>defaults to <code>LOGGER_LEVELS.ERROR</code></p></td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>args</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">Array.&lt;any></code>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last"><p>arguments to be passed as replacements to the logger</p></td>
 </tr>
 
 
@@ -287,7 +377,7 @@
         <p class="tag-source">
             <a href="errors_errors.ts.html" class="button">View Source</a>
             <span>
-                <a href="errors_errors.ts.html">errors/errors.ts</a>, <a href="errors_errors.ts.html#line94">line 94</a>
+                <a href="errors_errors.ts.html">errors/errors.ts</a>, <a href="errors_errors.ts.html#line96">line 96</a>
             </span>
         </p>
     
@@ -351,11 +441,11 @@
             
                 <div class="member">
 
-<h4 class="name" id="logged">
-    <a class="href-link" href="#logged">#</a>
+<h4 class="name" id="loggedAt">
+    <a class="href-link" href="#loggedAt">#</a>
     
     <span class="code-name">
-        logged
+        loggedAt
     </span>
     
 </h4>
@@ -401,6 +491,11 @@
     
 
     <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
     
     </td>
 
@@ -453,7 +548,7 @@
         <p class="tag-source">
             <a href="errors_errors.ts.html" class="button">View Source</a>
             <span>
-                <a href="errors_errors.ts.html">errors/errors.ts</a>, <a href="errors_errors.ts.html#line108">line 108</a>
+                <a href="errors_errors.ts.html">errors/errors.ts</a>, <a href="errors_errors.ts.html#line113">line 113</a>
             </span>
         </p>
     
@@ -467,11 +562,19 @@
             
                 <div class="member">
 
-<h4 class="name" id="logged">
-    <a class="href-link" href="#logged">#</a>
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">number</code>
+
+
+    </span>
+
+<h4 class="name" id="loggedAt">
+    <a class="href-link" href="#loggedAt">#</a>
     
     <span class="code-name">
-        logged
+        loggedAt
     </span>
     
 </h4>
@@ -517,6 +620,11 @@
     
 
     <td class="type">
+    
+        
+<code class="param-type">number</code>
+
+
     
     </td>
 
@@ -569,7 +677,7 @@
         <p class="tag-source">
             <a href="errors_errors.ts.html" class="button">View Source</a>
             <span>
-                <a href="errors_errors.ts.html">errors/errors.ts</a>, <a href="errors_errors.ts.html#line205">line 205</a>
+                <a href="errors_errors.ts.html">errors/errors.ts</a>, <a href="errors_errors.ts.html#line225">line 225</a>
             </span>
         </p>
     
