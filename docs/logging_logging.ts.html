@@ -248,10 +248,10 @@ export class LoggerImp implements Logger {
         if (message instanceof Error)
             message = message.message;
 
-        if (this.logLevel)
-            message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}] - ${message}`;
         if (issuer)
             message = `[${issuer.toString()}]${message}`;
+        if (this.logLevel)
+            message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}] - ${message}`;
         if (this.useTimestamp)
             message = `[${formatDate(new Date(), this.timestampFormat)}]${message}`;
         return stringFormat(message, ...args);
