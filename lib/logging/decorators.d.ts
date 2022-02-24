@@ -6,4 +6,3 @@ export declare class StopWatch {
 }
 export declare function logAsync(level?: number | boolean, benchmark?: boolean): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
 export declare function logSync(level?: number | boolean, benchmark?: boolean): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-//# sourceMappingURL=decorators.d.ts.map

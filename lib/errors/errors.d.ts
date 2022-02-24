@@ -14,4 +14,3 @@ export declare class LoggedError extends Error {
 export declare class CriticalError extends LoggedError {
     constructor(error: LoggerMessage, issuer?: any, ...args: any[]);
 }
-//# sourceMappingURL=errors.d.ts.map

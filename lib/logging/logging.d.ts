@@ -34,4 +34,3 @@ export declare const debug: (this: any, message: LoggerMessage, ...args: any[]) 
 export declare const warn: (this: any, message: LoggerMessage, ...args: any[]) => void;
 export declare const error: (this: any, message: LoggerMessage, ...args: any[]) => void;
 export declare const critical: (this: any, message: LoggerMessage, ...args: any[]) => void;
-//# sourceMappingURL=logging.d.ts.map
