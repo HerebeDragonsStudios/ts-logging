@@ -1,6 +1,6 @@
 {
   "name": "@glass-project/logging",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./dist/index.min.js",
   "module": "./dist/esm/index.min.esm.js",
