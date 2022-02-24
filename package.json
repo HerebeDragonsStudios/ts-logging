@@ -12,7 +12,6 @@
     "start": "npm run build && node lib/index.js",
     "build": "rimraf ./lib && rimraf ./dist && gulp --stage=build --mode=development",
     "build:prod": "rimraf ./lib && rimraf ./dist && gulp --stage=deploy --mode=development",
-    "minify": "npx gulp ",
     "test": "jest --coverage",
     "prepare-release": "npm run build:prod && npm run docs",
     "release": "./bin/tag-release.sh",
