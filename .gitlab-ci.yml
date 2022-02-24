@@ -1,11 +1,5 @@
-stages:
-  - deploy
-
 default:
-  image: node:12
-
-
-
+  image: node:16
   before_script:
     - |
       if [[ ! -f package.json ]]; then
@@ -15,33 +9,46 @@ default:
       fi
     - NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
     - NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    
-    
+    - npm install
+
+stages:
+  - test
+  - build
+  - deploy
+
+tests:
+  stage: test
+  script:
+    - npm run coverage
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - workdocs/coverage/junit-report.xml
 
 npm-deploy:
+  image: node:12
   stage: deploy
-  script: 
+  script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}">.npmrc
     - npm publish
-
   only:
     - tags
   except:
     - branches
 
 pages:
-  image: node:16.13.1
   stage: deploy
   script:
-  - npm install
-  - npm run docs
-  - ls -la
-  - mv docs public
+    - npm run docs
+    - mv docs public
   artifacts:
     paths:
-    - public
+      - public
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
+        - workdocs/**/*
         - docs/**/*
+    - if: '$CI_COMMIT_TAG'

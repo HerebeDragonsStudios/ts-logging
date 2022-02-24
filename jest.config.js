@@ -7,6 +7,13 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: "./workdocs/coverage",
   coverageReporters: [
-    "json-summary"
+    "json-summary",
+    "text-summary",
+    "text",
+    "html"
+  ],
+  reporters: [
+    "default",
+    ["jest-junit", {outputDirectory: './workdocs/coverage', outputName: "junit-report.xml"}]
   ]
 };

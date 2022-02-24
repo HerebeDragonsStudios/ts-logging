@@ -5,7 +5,6 @@ const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const gulpIf = require('gulp-if')
-// const concat = require('gulp-concat');
 const merge = require('merge-stream');
 
 const named = require('vinyl-named');
