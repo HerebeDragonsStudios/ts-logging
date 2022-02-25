@@ -4,6 +4,9 @@
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./dist/logging.bundle.js",
   "module": "./dist/esm/logging.bundle.esm.js",
+  "publishConfig": {
+    "@glass-project:registry": " https://gitlab.ubitech.eu/api/v4/projects/687/packages/npm/"
+  },
   "scripts": {
     "start:dev": "nodemon",
     "start": "npm run build && node lib/index.js",

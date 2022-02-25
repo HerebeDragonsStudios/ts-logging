@@ -31,8 +31,7 @@ npm-deploy:
   stage: deploy
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
-    - npm config set @glass-project:registry https//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}
-    - cat .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
     - npm publish
   only:
     - tags
