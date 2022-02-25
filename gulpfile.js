@@ -6,11 +6,8 @@ const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const gulpIf = require('gulp-if')
 const merge = require('merge-stream');
-
 const named = require('vinyl-named');
-
 const webpack = require('webpack-stream');
-
 const {argParser} = require('@glass-project/dsu-utils/src/TestRunner');
 
 const glassPrefix = "@glass-project/"
@@ -82,14 +79,17 @@ function getWebpackConfig(isESM){
         output: {
             filename: `${config.name}.bundle.${isProd() ? 'min.' : ''}${isESM ? 'esm.' : ''}js`,
             path: path.resolve(__dirname, "dist/"),
-            library: config.name,
-            libraryTarget: 'umd',
-            umdNamedDefine: true
+            library: {
+                type: "module",
+            },    
         }
     }
 
-    if (!isESM)
-        webPackConfig.output.globalObject = 'this';
+    if(isESM)
+        webPackConfig.experiments = {outputModule: true} 
+    else
+        webPackConfig.output = Object.assign({}, webPackConfig.output, {globalObject: 'this', library: config.name, libraryTarget: "umd", umdNamedDefine: true,});
+
     if (isDev())
         webPackConfig.devtool = 'eval-source-map';
 
