@@ -27,7 +27,6 @@ tests:
         - workdocs/coverage/junit-report.xml
 
 npm-deploy:
-  image: node:12
   stage: deploy
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
