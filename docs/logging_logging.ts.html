@@ -249,12 +249,28 @@ export class LoggerImp implements Logger {
             message = message.message;
 
         if (issuer)
-            message = `[${issuer.toString()}]${message}`;
+            message = `[${this.getIssuerName(issuer)}] - ${message}`;
         if (this.logLevel)
-            message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}] - ${message}`;
+            message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}]${issuer ? '' : " - "}${message}`;
         if (this.useTimestamp)
             message = `[${formatDate(new Date(), this.timestampFormat)}]${message}`;
         return stringFormat(message, ...args);
+    }
+
+    /**
+     * Retrieves a proper string representation for the issuer object (or tries to)
+     *
+     * @param {any} issuer the Class, function, overall object that is calling the log
+     * @protected
+     */
+    protected getIssuerName(issuer: any = undefined): string | undefined {
+        if (!issuer)
+            return;
+        if (issuer.constructor)
+            return issuer.constructor.name;
+        if (issuer.name)
+            return issuer.name;
+        return issuer.toString();
     }
 
     /**
