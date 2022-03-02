@@ -17,6 +17,7 @@ export declare class LoggerImp implements Logger {
     private readonly logStackTrace;
     constructor(defaultLevel?: number, useTimestamp?: boolean, logLevel?: boolean, logStackTrace?: boolean, timestampFormat?: string);
     protected buildMessage(message: LoggerMessage, logLevel: number, issuer?: any, ...args: any[]): string;
+    protected getIssuerName(issuer?: any): string | undefined;
     report(message: LoggerMessage, level?: number, issuer?: any, ...args: any[]): void;
     info(message: LoggerMessage, issuer?: any, ...args: any[]): void;
     all(message: LoggerMessage, issuer?: any, ...args: any[]): void;
