@@ -29,7 +29,7 @@
             "hideGenerator": true,
             "navLinks": [
                 {
-                    "label": "Github Repository",
+                    "label": "Gitlab Repository",
                     "href": "https://gitlab.ubitech.eu/glass-project/wallet/logging#readme"
                 },
                 {
