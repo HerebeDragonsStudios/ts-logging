@@ -1,7 +1,5 @@
 .node_cache: &cache_node_modules
-  key:
-    files:
-      - package-lock.json
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules
   policy: pull
