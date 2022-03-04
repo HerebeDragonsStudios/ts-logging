@@ -11,6 +11,34 @@
  */
 import {DAYS_OF_WEEK_NAMES, MONTH_NAMES} from "./constants";
 
+/**
+ * Tries to retrieve the Objects 'readable' name (constructor name, function name, and toString() result in this order)
+ * @param {any} obj
+ *
+ * @function stringFormat
+ *
+ * @memberOf logging.logging
+ */
+export function getObjectName(obj: any): string | undefined {
+    if (!obj)
+        return;
+    if (obj.constructor && obj.constructor.name && ["Function", "Object"].indexOf(obj.constructor.name) === -1)
+        return obj.constructor.name;
+    if (typeof obj === 'function' && obj.name)
+        return obj.name;
+    return obj.toString();
+}
+
+/**
+ * Formats a string the Java way, with ```{[0-9]+}``` notation
+ *
+ * @param {string} string
+ * @param {any[]} [args] replacements in order
+ *
+ * @function stringFormat
+ *
+ * @memberOf logging.logging
+ */
 export function stringFormat(string: string, ...args: string[]){
     return string.replace(/{(\d+)}/g, function(match, number) {
         return typeof args[number] !== 'undefined'

@@ -12,6 +12,9 @@ import {Callback, getLogger, LOGGER_LEVELS, LoggerMessage} from "../logging";
  * @memberOf db-decorators.errors
  */
 export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]){
+    // @ts-ignore
+    if (message instanceof Error && message.name === LoggedError.constructor.name && message.loggedAt && message.loggetAt >= level)
+        return callback(message);
     const error: LoggedError = new LoggedError(message, this && this.name !== "loggedCallback" ? this : undefined, level, ...args);
     callback(error);
 }
@@ -122,9 +125,9 @@ export class LoggedError extends Error {
 
     constructor(error: LoggerMessage, issuer: any = undefined, level: number = LOGGER_LEVELS.ALL, ...args: any[]) {
         super(error instanceof Error ? error.message : error);
-        this.name = "LoggedError";
+        this.name = LoggedError.constructor.name;
         // @ts-ignore
-        this.loggedAt = error instanceof Error && error.name === 'LoggedError' ? error.loggedAt : undefined;
+        this.loggedAt = error instanceof Error && error.name === LoggedError.constructor.name ? error.loggedAt : undefined;
         this.issuer = issuer;
 
         // @ts-ignore

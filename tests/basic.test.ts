@@ -1,5 +1,5 @@
 import {getLogger} from "../src";
-import {allCallback, Callback, CriticalError, LoggedError, Logger, LOGGER_LEVELS, criticalCallback, errorCallback, infoCallback} from "../src";
+import {allCallback, Callback, CriticalError, LoggedError, Logger, LOGGER_LEVELS, criticalCallback, errorCallback, infoCallback, getObjectName} from "../src";
 
 describe(`Logging Module`, function(){
 
@@ -39,6 +39,19 @@ describe(`Logging Module`, function(){
             expect(logger.report).toHaveBeenCalledTimes(2);
         });
     });
+
+    it("Handles this in functions", () => {
+        function testFunction(){
+            return;
+        }
+
+        const testConst = function(){
+            return;
+        }
+
+        expect(getObjectName(testFunction)).toBe("testFunction");
+        expect(getObjectName(testConst)).toBe("testConst");
+    })
 
     it(`Uses Callbacks properly and handles This`, (cb) => {
 

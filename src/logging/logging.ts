@@ -1,5 +1,5 @@
 import {DEFAULT_TIMESTAMP_FORMAT, LOGGER_LEVELS, LOGGING_MSG} from "./constants";
-import {formatDate, stringFormat} from "./utils";
+import {formatDate, getObjectName, stringFormat} from "./utils";
 
 /**
  * @typedef LoggerMessage
@@ -122,9 +122,9 @@ export class LoggerImp implements Logger {
             message = message.message;
 
         if (issuer)
-            message = `[${issuer.toString()}]${message}`;
+            message = `[${getObjectName(issuer)}] - ${message}`;
         if (this.logLevel)
-            message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}] - ${message}`;
+            message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}]${issuer ? '' : " - "}${message}`;
         if (this.useTimestamp)
             message = `[${formatDate(new Date(), this.timestampFormat)}]${message}`;
         return stringFormat(message, ...args);
