@@ -1,3 +1,24 @@
+.node_cache: &cache_node_modules
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - node_modules
+  policy: pull
+
+.test-cache: &test-cache
+  key: test-$CI_JOB_IMAGE
+  paths:
+    - workdocs/coverage
+  policy: pull-push
+
+.build-cache: &build-cache
+  key: build-$CI_JOB_IMAGE
+  paths:
+      - lib
+      - dist
+  policy: pull-push
+
 default:
   image: node:16
   before_script:
@@ -9,17 +30,31 @@ default:
       fi
     - NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
     - NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    - npm install
 
 stages:
+  - dependencies
   - test
   - build
   - deploy
 
+
+install:
+  stage: dependencies
+  cache:
+    <<: *cache_node_modules
+    policy: pull-push
+  script:
+    - npm install
+
+
 tests:
   stage: test
+  needs: ["install"]
   script:
     - npm run coverage
+  cache:
+    <<: *cache_node_modules
+    <<: *test-cache  
   artifacts:
     when: always
     reports:
@@ -28,6 +63,9 @@ tests:
 
 npm-deploy:
   stage: deploy
+  needs: ["install", "tests"]
+  cache:
+    <<: *cache_node_modules
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
@@ -37,8 +75,24 @@ npm-deploy:
   except:
     - branches
 
+dsu-publish:
+  stage: deploy
+  needs: ["install", "tests"]
+  cache:
+    <<: *cache_node_modules
+  script:
+    - echo "This will be replaced by a call to a workspace to handle deploying to DSU"
+  only:
+    - tags
+  except:
+    - branches    
+
 pages:
   stage: deploy
+  needs: ["install"]
+  cache:
+    <<: *cache_node_modules
+    <<: *test-cache  
   script:
     - npm run docs
     - mv docs public
