@@ -4,7 +4,7 @@
       - package-lock.json
   paths:
     - node_modules
-    - ./npm
+    - ./.npm
   policy: pull
 
 .test-cache: &test-cache
