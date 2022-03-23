@@ -1,24 +1,29 @@
 .node_cache: &cache_node_modules
-  key:
-    files:
-      - package-lock.json
+  key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
   paths:
-    - node_modules
-    - ./.npm
+    - node_modules/
+    - .npm/
   policy: pull
 
 .test-cache: &test-cache
   key: test-$CI_JOB_IMAGE
   paths:
-    - workdocs/coverage
+    - workdocs/coverage/
   policy: pull-push
 
 .build-cache: &build-cache
   key: build-$CI_JOB_IMAGE
   paths:
-      - lib
-      - dist
+    - lib/
+    - dist/
+    - loader/
   policy: pull-push
+
+variables:
+  FF_USE_FASTZIP: 1
+  CACHE_COMPRESSION_LEVEL: "fastest"
+  ARTIFACT_COMPRESSION_LEVEL: "fast"
+  CACHE_REQUEST_TIMEOUT: 5
 
 default:
   image: node:16
@@ -39,7 +44,6 @@ stages:
   - build
   - deploy
 
-
 install:
   stage: dependencies
   cache:
@@ -47,27 +51,47 @@ install:
     policy: pull-push
   script:
     - npm install
-
+  interruptible: true
+  only:
+    changes:
+      - package-lock.json
+  retry:
+    max: 2
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
 
 tests:
   stage: test
-  needs: ["install"]
   script:
     - npm run coverage
   cache:
     <<: *cache_node_modules
-    <<: *test-cache  
+    <<: *test-cache
   artifacts:
     when: always
     reports:
       junit:
         - workdocs/coverage/junit-report.xml
+  coverage: '/^Statements.*?:.*?(\d+\.\d+)%/'      
+  interruptible: true
+
+build:
+  stage: build
+  needs: ["tests"]
+  cache:
+    <<: *cache_node_modules
+    <<: *build-cache
+  script:
+    - npm run build:prod
 
 npm-deploy:
   stage: deploy
-  needs: ["install", "tests"]
+  needs: ["tests", "build"]
   cache:
     <<: *cache_node_modules
+    <<: *build-cache
+    policy: pull
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
@@ -79,22 +103,25 @@ npm-deploy:
 
 dsu-publish:
   stage: deploy
-  needs: ["install", "tests"]
+  needs: ["tests", "build"]
   cache:
     <<: *cache_node_modules
+    <<: *build-cache
+    policy: pull
   script:
     - echo "This will be replaced by a call to a workspace to handle deploying to DSU"
   only:
     - tags
   except:
-    - branches    
+    - branches
 
 pages:
   stage: deploy
-  needs: ["install"]
+  needs: ["tests"]
   cache:
     <<: *cache_node_modules
-    <<: *test-cache  
+    <<: *test-cache
+    policy: pull
   script:
     - npm run docs
     - mv docs public
@@ -107,3 +134,4 @@ pages:
         - workdocs/**/*
         - docs/**/*
     - if: '$CI_COMMIT_TAG'
+  interruptible: true
