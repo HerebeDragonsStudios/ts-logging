@@ -8,7 +8,7 @@ const gulpIf = require('gulp-if')
 const merge = require('merge-stream');
 const named = require('vinyl-named');
 const webpack = require('webpack-stream');
-const {argParser} = require('@glass-project/dsu-utils/src/TestRunner');
+const {argParser} = require('@glass-project/dsu-utils/src/utils');
 
 const glassPrefix = "@glass-project/"
 let {name, version} = require('./package.json');
