@@ -48,7 +48,7 @@
   "homepage": "https://gitlab.ubitech.eu/glass-project/wallet/logging#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.16.11",
-    "@glass-project/dsu-utils": "^0.0.9",
+    "@glass-project/dsu-utils": "^0.1.2",
     "@types/jest": "^27.0.3",
     "@types/node": "^16.0.1",
     "gulp": "^4.0.2",
@@ -64,7 +64,6 @@
     "markdown-include": "^0.4.3",
     "merge-stream": "^2.0.0",
     "nodemon": "^2.0.10",
-    "np": "^7.5.0",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.6",
