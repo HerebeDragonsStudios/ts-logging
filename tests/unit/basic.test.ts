@@ -1,5 +1,5 @@
-import {getLogger} from "../src";
-import {allCallback, Callback, CriticalError, LoggedError, Logger, LOGGER_LEVELS, criticalCallback, errorCallback, infoCallback, getObjectName} from "../src";
+import {getLogger} from "../../src";
+import {allCallback, Callback, CriticalError, LoggedError, Logger, LOGGER_LEVELS, criticalCallback, errorCallback, infoCallback, getObjectName} from "../../src";
 
 describe(`Logging Module`, function(){
 
