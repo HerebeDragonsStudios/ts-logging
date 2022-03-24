@@ -6,7 +6,7 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   globalSetup: "./node_modules/@glass-project/dsu-utils/src/jest-setup.js",
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.{ts}'],
+  collectCoverageFrom: ['src/**/*.{ts,jsx}'],
   coverageDirectory: "./workdocs/coverage",
   coverageReporters: [
     "json-summary",
