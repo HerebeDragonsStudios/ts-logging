@@ -4,7 +4,6 @@ module.exports = {
   testEnvironment: 'node',
   testRegex: '/tests/.*\\.(test|spec)\\.(ts|tsx)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  globalSetup: "./node_modules/@glass-project/dsu-utils/src/jest-setup.js",
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,jsx}'],
   coverageDirectory: "./workdocs/coverage",

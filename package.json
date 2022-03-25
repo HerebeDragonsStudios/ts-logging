@@ -13,8 +13,6 @@
     "build": "rimraf ./lib && rimraf ./dist && gulp --stage=build --mode=development",
     "build:prod": "rimraf ./lib && rimraf ./dist && gulp --stage=deploy --mode=development",
     "test": "jest --coverage --testPathPattern=\"/tests/unit\" --globalSetup=\"\"",
-    "test:it": "jest --runInBand --coverage --passWithNoTests --testPathPattern=\"/tests/integration\"",
-    "test:all": "jest --runInBand --passWithNoTests --coverage",
     "prepare-release": "npm run build:prod && npm run docs",
     "release": "./bin/tag-release.sh",
     "clean-publish": "npx clean-publish",
