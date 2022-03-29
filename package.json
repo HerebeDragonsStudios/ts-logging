@@ -1,6 +1,6 @@
 {
   "name": "@glass-project/logging",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./dist/logging.bundle.js",
   "module": "./dist/esm/logging.bundle.esm.js",
