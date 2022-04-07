@@ -14,7 +14,7 @@
     "build:prod": "rimraf ./lib && rimraf ./dist && gulp --stage=deploy --mode=development",
     "test": "jest --coverage --testPathPattern=\"/tests/unit\"",
     "test:all": "jest --coverage --testPathPattern=\"/tests/(unit|integration)\" --passWithNoTests --detectOpenHandles && npm run test:opendsu",
-    "test:ci": "node ./node_modules/@glass-project/dsu-utils/src/cli.js --action=workspace setup",
+    "test:ci": "npm install @glass-project/dsu-utils && node ./node_modules/@glass-project/dsu-utils/src/cli.js --action=workspace setup",
     "test:opendsu": "npm install @glass-project/dsu-utils && jest --coverage=false --passWithNoTests --testPathPattern=\"/tests/after-dsu\" --detectOpenHandles --globalSetup=\"./node_modules/@glass-project/dsu-utils/src/jest-setup.js\"",
     "prepare-release": "npm run build:prod && npm run docs",
     "release": "./bin/tag-release.sh",

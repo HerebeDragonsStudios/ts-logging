@@ -15,7 +15,7 @@
 		exports["logging"] = factory();
 	else
 		root["logging"] = factory();
-})(this, function() {
+})(this, () => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
