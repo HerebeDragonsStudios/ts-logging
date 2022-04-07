@@ -1,4 +1,4 @@
-export declare type LoggerMessage = Error | string;
+import { LoggerMessage } from "./constants";
 export interface Logger {
     report(message: LoggerMessage, level: number, issuer: any, ...args: any[]): void;
     all(message: LoggerMessage, ...args: any[]): void;

@@ -1,4 +1,4 @@
-import { Callback, LoggerMessage } from "../logging";
+import { Callback, LoggerMessage } from "./constants";
 export declare function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]): void;
 export declare function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]): void;
 export declare function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]): void;
