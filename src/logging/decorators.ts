@@ -1,5 +1,5 @@
-import {CriticalError} from "../errors";
-import {getLogger} from "./logging";
+import {getLogger} from "./general";
+import {CriticalError} from "./errors";
 import {Callback, Err, LOGGER_LEVELS} from "./constants";
 
 /**

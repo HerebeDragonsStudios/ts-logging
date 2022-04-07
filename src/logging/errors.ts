@@ -1,4 +1,5 @@
-import {Callback, getLogger, LOGGER_LEVELS, LoggerMessage} from "../logging";
+import {getLogger} from "./general";
+import {Callback, LOGGER_LEVELS, LoggerMessage} from "./constants";
 
 /**
  *
@@ -11,7 +12,7 @@ import {Callback, getLogger, LOGGER_LEVELS, LoggerMessage} from "../logging";
  *
  * @memberOf db-decorators.errors
  */
-export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]){
+export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]) {
     // @ts-ignore
     if (message instanceof Error && message.name === LoggedError.constructor.name && message.loggedAt && message.loggetAt >= level)
         return callback(message);
@@ -29,7 +30,7 @@ export function loggedCallback(this: any, message: LoggerMessage, level: number,
  *
  * @memberOf db-decorators.errors
  */
-export function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.ALL, callback, ...args);
 }
 
@@ -43,7 +44,7 @@ export function allCallback(this: any, message: LoggerMessage, callback: Callbac
  *
  * @memberOf db-decorators.errors
  */
-export function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.DEBUG, callback, ...args);
 }
 
@@ -57,7 +58,7 @@ export function debugCallback(this: any, message: LoggerMessage, callback: Callb
  *
  * @memberOf db-decorators.errors
  */
-export function infoCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function infoCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.INFO, callback, ...args);
 }
 
@@ -71,7 +72,7 @@ export function infoCallback(this: any, message: LoggerMessage, callback: Callba
  *
  * @memberOf db-decorators.errors
  */
-export function warningCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function warningCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.WARN, callback, ...args);
 }
 
@@ -85,7 +86,7 @@ export function warningCallback(this: any, message: LoggerMessage, callback: Cal
  *
  * @memberOf db-decorators.errors
  */
-export function errorCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function errorCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.ERROR, callback, ...args);
 }
 
@@ -99,7 +100,7 @@ export function errorCallback(this: any, message: LoggerMessage, callback: Callb
  *
  * @memberOf db-decorators.errors
  */
-export function criticalCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function criticalCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.CRITICAL, callback, ...args);
 }
 
@@ -131,7 +132,7 @@ export class LoggedError extends Error {
         this.issuer = issuer;
 
         // @ts-ignore
-        if (error.loggedAt === undefined || error.loggedAt < level){
+        if (error.loggedAt === undefined || error.loggedAt < level) {
             getLogger().report(this, level, issuer, ...args);
             this.loggedAt = level;
         }

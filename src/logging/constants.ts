@@ -36,6 +36,12 @@ export type Err = Error | string | undefined;
 export type Callback = (err?: Err, ...args: any[]) => void;
 
 /**
+ * @typedef LoggerMessage
+ * @memberOf logging.logging
+ */
+export type LoggerMessage = Error | string;
+
+/**
  * @constant DEFAULT_TIMESTAMP_FORMAT
  * @category Constants
  */
