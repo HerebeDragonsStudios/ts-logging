@@ -64,7 +64,7 @@ install:
 tests:
   stage: test
   script:
-    - npm run coverage
+    - npm run test:ci
   cache:
     <<: *cache_node_modules
     <<: *test-cache
