@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Logging errors/errors.ts</title>
+  <title>Logging logging/errors.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -108,7 +108,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-logging.html">logging</a></li></ul><h3>Namespaces</h3><ul><li><a href="db-decorators.errors.html">errors</a></li><li><a href="logging.logging.html">logging</a></li></ul><h3>Classes</h3><ul><li><a href="CriticalError.html">CriticalError</a></li><li><a href="LoggedError.html">LoggedError</a></li><li><a href="LoggerImp.html">LoggerImp</a></li><li><a href="StopWatch.html">StopWatch</a></li></ul><h3>Interfaces</h3><ul><li><a href="logging.logging.Logger.html">Logger</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DAYS_OF_WEEK_NAMES">DAYS_OF_WEEK_NAMES</a></li><li><a href="global.html#MONTH_NAMES">MONTH_NAMES</a></li></ul></div><div class="category"><h2>Constants</h2><h3>Global</h3><ul><li><a href="global.html#DEFAULT_TIMESTAMP_FORMAT">DEFAULT_TIMESTAMP_FORMAT</a></li><li><a href="global.html#LOGGER_LEVELS">LOGGER_LEVELS</a></li></ul></div><div class="category"><h2>Decorators</h2><h3>Global</h3><ul><li><a href="global.html#logAsync">logAsync</a></li><li><a href="global.html#logSync">logSync</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-logging.html">logging</a></li></ul><h3>Namespaces</h3><ul><li><a href="logging.logging.html">logging</a></li></ul><h3>Classes</h3><ul><li><a href="CriticalError.html">CriticalError</a></li><li><a href="LoggedError.html">LoggedError</a></li><li><a href="LoggerImp.html">LoggerImp</a></li><li><a href="StopWatch.html">StopWatch</a></li></ul><h3>Interfaces</h3><ul><li><a href="logging.logging.Logger.html">Logger</a></li></ul><h3>Global</h3><ul><li><a href="global.html#DAYS_OF_WEEK_NAMES">DAYS_OF_WEEK_NAMES</a></li><li><a href="global.html#MONTH_NAMES">MONTH_NAMES</a></li></ul></div><div class="category"><h2>Constants</h2><h3>Global</h3><ul><li><a href="global.html#DEFAULT_TIMESTAMP_FORMAT">DEFAULT_TIMESTAMP_FORMAT</a></li><li><a href="global.html#LOGGER_LEVELS">LOGGER_LEVELS</a></li></ul></div><div class="category"><h2>Decorators</h2><h3>Global</h3><ul><li><a href="global.html#logAsync">logAsync</a></li><li><a href="global.html#logSync">logSync</a></li></ul></div>
                 
             </nav>
         </div>
@@ -116,7 +116,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>errors/errors.ts</h1>
+                    <h1>logging/errors.ts</h1>
                 </header>
                 
 
@@ -125,7 +125,8 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import {Callback, getLogger, LOGGER_LEVELS, LoggerMessage} from "../logging";
+            <pre class="prettyprint source linenums"><code>import {getLogger} from "./general";
+import {Callback, LOGGER_LEVELS, LoggerMessage} from "./constants";
 
 /**
  *
@@ -138,7 +139,7 @@
  *
  * @memberOf db-decorators.errors
  */
-export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]){
+export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]) {
     // @ts-ignore
     if (message instanceof Error &amp;&amp; message.name === LoggedError.constructor.name &amp;&amp; message.loggedAt &amp;&amp; message.loggetAt >= level)
         return callback(message);
@@ -156,7 +157,7 @@ export function loggedCallback(this: any, message: LoggerMessage, level: number,
  *
  * @memberOf db-decorators.errors
  */
-export function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.ALL, callback, ...args);
 }
 
@@ -170,7 +171,7 @@ export function allCallback(this: any, message: LoggerMessage, callback: Callbac
  *
  * @memberOf db-decorators.errors
  */
-export function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.DEBUG, callback, ...args);
 }
 
@@ -184,7 +185,7 @@ export function debugCallback(this: any, message: LoggerMessage, callback: Callb
  *
  * @memberOf db-decorators.errors
  */
-export function infoCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function infoCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.INFO, callback, ...args);
 }
 
@@ -198,7 +199,7 @@ export function infoCallback(this: any, message: LoggerMessage, callback: Callba
  *
  * @memberOf db-decorators.errors
  */
-export function warningCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function warningCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.WARN, callback, ...args);
 }
 
@@ -212,7 +213,7 @@ export function warningCallback(this: any, message: LoggerMessage, callback: Cal
  *
  * @memberOf db-decorators.errors
  */
-export function errorCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function errorCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.ERROR, callback, ...args);
 }
 
@@ -226,7 +227,7 @@ export function errorCallback(this: any, message: LoggerMessage, callback: Callb
  *
  * @memberOf db-decorators.errors
  */
-export function criticalCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]){
+export function criticalCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.CRITICAL, callback, ...args);
 }
 
@@ -258,7 +259,7 @@ export class LoggedError extends Error {
         this.issuer = issuer;
 
         // @ts-ignore
-        if (error.loggedAt === undefined || error.loggedAt &lt; level){
+        if (error.loggedAt === undefined || error.loggedAt &lt; level) {
             getLogger().report(this, level, issuer, ...args);
             this.loggedAt = level;
         }
