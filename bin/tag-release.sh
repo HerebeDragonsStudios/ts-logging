@@ -48,7 +48,7 @@ echo "Setting node to 14"
 nvm use 14
 
 echo "Listing existing tags..."
-git tag
+git tag --sort=taggerdate
 
 TAG=""
 
