@@ -51,8 +51,8 @@ default:
 
 stages:
   - dependencies
-  - test
   - build
+  - test
   - deploy
 
 install:
@@ -73,6 +73,7 @@ install:
 
 tests:
   stage: test
+  needs: ["build"]
   script:
     - npm run coverage
   cache:
@@ -88,7 +89,6 @@ tests:
 
 build:
   stage: build
-  needs: ["tests"]
   cache:
     <<: *cache_node_modules-pull
     <<: *build-cache-push
