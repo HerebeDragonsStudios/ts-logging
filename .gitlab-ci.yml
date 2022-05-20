@@ -1,23 +1,34 @@
-.node_cache: &cache_node_modules
+.node_cache_push: &cache_node_modules-push
   key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
   paths:
     - node_modules/
     - .npm/
+  policy: push
+
+.node_cache_pull: &cache_node_modules-pull
+  <<: *cache_node_modules-push
   policy: pull
 
-.test-cache: &test-cache
+.test-cache_push: &test-cache-push
   key: test-$CI_JOB_IMAGE
   paths:
     - workdocs/coverage/
-  policy: pull-push
+  policy: push
 
-.build-cache: &build-cache
+.test-cache_pull: &test-cache-pull
+  <<: *test-cache-push
+  policy: pull
+
+.build-cache-push: &build-cache-push
   key: build-$CI_JOB_IMAGE
   paths:
     - lib/
     - dist/
-    - loader/
-  policy: pull-push
+  policy: push
+
+.build-cache-pull: &build-cache-pull
+  <<: *build-cache-push
+  policy: pull
 
 variables:
   FF_USE_FASTZIP: 1
@@ -47,10 +58,9 @@ stages:
 install:
   stage: dependencies
   cache:
-    <<: *cache_node_modules
-    policy: pull-push
+    <<: *cache_node_modules-push
   script:
-    - npm install
+    - npm ci --cache .npm --prefer-offline
   interruptible: true
   only:
     changes:
@@ -64,24 +74,24 @@ install:
 tests:
   stage: test
   script:
-    - npm run test:ci
+    - npm run coverage
   cache:
-    <<: *cache_node_modules
-    <<: *test-cache
+    <<: *cache_node_modules-pull
+    <<: *test-cache-push
   artifacts:
     when: always
     reports:
       junit:
         - workdocs/coverage/junit-report.xml
-  coverage: '/^Statements.*?:.*?(\d+\.\d+)%/'      
+  coverage: '/^Statements.*?:.*?(\d+\.\d+)%/'
   interruptible: true
 
 build:
   stage: build
   needs: ["tests"]
   cache:
-    <<: *cache_node_modules
-    <<: *build-cache
+    <<: *cache_node_modules-pull
+    <<: *build-cache-push
   script:
     - npm run build:prod
 
@@ -89,9 +99,8 @@ npm-deploy:
   stage: deploy
   needs: ["tests", "build"]
   cache:
-    <<: *cache_node_modules
-    <<: *build-cache
-    policy: pull
+    <<: *cache_node_modules-pull
+    <<: *build-cache-pull
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
@@ -101,27 +110,13 @@ npm-deploy:
   except:
     - branches
 
-dsu-publish:
-  stage: deploy
-  needs: ["tests", "build"]
-  cache:
-    <<: *cache_node_modules
-    <<: *build-cache
-    policy: pull
-  script:
-    - echo "This will be replaced by a call to a workspace to handle deploying to DSU"
-  only:
-    - tags
-  except:
-    - branches
-
 pages:
   stage: deploy
   needs: ["tests"]
   cache:
-    <<: *cache_node_modules
-    <<: *test-cache
-    policy: pull
+    <<: *cache_node_modules-pull
+    <<: *build-cache-pull
+    <<: *test-cache-pull
   script:
     - npm run docs
     - mv docs public
@@ -132,6 +127,7 @@ pages:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
         - workdocs/**/*
-        - docs/**/*
     - if: '$CI_COMMIT_TAG'
+    - when: manual
   interruptible: true
+  allow_failure: true
