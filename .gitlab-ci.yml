@@ -78,6 +78,7 @@ tests:
     - npm run coverage
   cache:
     <<: *cache_node_modules-pull
+    <<: *build-cache-pull
     <<: *test-cache-push
   artifacts:
     when: always
