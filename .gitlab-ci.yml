@@ -3,6 +3,7 @@ variables:
   CACHE_COMPRESSION_LEVEL: "fastest"
   ARTIFACT_COMPRESSION_LEVEL: "fast"
   CACHE_REQUEST_TIMEOUT: 5
+  GIT_CLEAN_FLAGS: -x -f -e lib/** dist/**
 
 default:
   image: node:16
