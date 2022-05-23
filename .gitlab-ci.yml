@@ -55,7 +55,6 @@ build:
       paths:
         - dist/
         - lib/
-      untracked : true
       policy: push
   script:
     - npm run build:prod
