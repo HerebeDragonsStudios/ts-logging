@@ -43,6 +43,25 @@ install:
       - runner_system_failure
       - stuck_or_timeout_failure
 
+build:
+  stage: build
+  cache:
+    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR\
+      paths:
+        - node_modules/
+        - .npm/
+      policy: pull
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
+      paths:
+        - dist/
+        - lib/
+      policy: push
+  script:
+    - ls -a
+    - npm run build:prod
+    - ls -la
+  interruptible: true  
+
 tests:
   stage: test
   needs: ["build"]
@@ -56,12 +75,12 @@ tests:
         - node_modules/
         - .npm/
       policy: pull
-    - key: build-$CI_JOB_IMAGE
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - dist/
         - lib/
       policy: pull
-    - key: test-$CI_JOB_IMAGE
+    - key: test-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - workdocs/coverage/
       policy: push
@@ -73,24 +92,6 @@ tests:
   coverage: '/^Statements.*?:.*?(\d+\.\d+)%/'
   interruptible: true
 
-build:
-  stage: build
-  cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR\
-      paths:
-        - node_modules/
-        - .npm/
-      policy: pull
-    - key: build-$CI_JOB_IMAGE
-      paths:
-        - dist/
-        - lib/
-      policy: push
-  script:
-    - ls -a
-    - npm run build:prod
-    - ls -la
-
 npm-deploy:
   stage: deploy
   needs: ["tests", "build"]
@@ -100,7 +101,7 @@ npm-deploy:
         - node_modules/
         - .npm/
       policy: pull
-    - key: build-$CI_JOB_IMAGE
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - dist/
         - lib/
@@ -124,12 +125,12 @@ pages:
         - node_modules/
         - .npm/
       policy: pull
-    - key: build-$CI_JOB_IMAGE
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - dist/
         - lib/
       policy: pull
-    - key: test-$CI_JOB_IMAGE
+    - key: test-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - workdocs/coverage/
       policy: pull
