@@ -89,6 +89,11 @@ tests:
         - node_modules/
         - .npm/
       policy: pull
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
+      paths:
+        - dist/
+        - lib/
+      policy: pull
     - key: test-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - workdocs/coverage/
