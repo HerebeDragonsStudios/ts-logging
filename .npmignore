@@ -1,6 +1,4 @@
 .github
-!/lib
-!/dist
 /bin
 /src
 /docs
