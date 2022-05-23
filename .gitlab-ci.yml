@@ -26,7 +26,7 @@ stages:
 install:
   stage: dependencies
   cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    - key: dependencies-$CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
@@ -46,7 +46,7 @@ install:
 build:
   stage: build
   cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR\
+    - key: dependencies-$CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
@@ -66,7 +66,7 @@ build-test:
   script:
     - ls -la
   cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR\
+    - key: dependencies-$CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
@@ -84,7 +84,7 @@ tests:
   script:
     - npm run test:ci
   cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    - key: dependencies-$CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
@@ -110,10 +110,15 @@ npm-deploy:
   stage: deploy
   needs: ["tests", "build"]
   cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    - key: dependencies-$CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
+      policy: pull
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
+      paths:
+        - dist/
+        - lib/
       policy: pull
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
@@ -129,7 +134,7 @@ pages:
   stage: deploy
   needs: ["tests"]
   cache:
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
+    - key: dependencies-$CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
