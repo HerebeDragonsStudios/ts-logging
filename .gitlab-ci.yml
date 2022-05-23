@@ -61,16 +61,16 @@ build:
   interruptible: true
 
 build-test:
-  stage: build
+  stage: test
   needs: ["build"]
   script:
     - ls -la
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR\
-        paths:
-          - node_modules/
-          - .npm/
-        policy: pull
+      paths:
+        - node_modules/
+        - .npm/
+      policy: pull
     - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - dist/
