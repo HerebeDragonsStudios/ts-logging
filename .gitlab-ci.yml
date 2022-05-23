@@ -73,6 +73,9 @@ build:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       policy: pull
     - key: build-$CI_JOB_IMAGE
+      paths:
+        - dist/
+        - lib/
       policy: push
   script:
     - ls -a
