@@ -47,7 +47,9 @@ tests:
   stage: test
   needs: ["build"]
   script:
+    - ls -la
     - npm run test:ci
+    - ls -la
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
@@ -105,11 +107,11 @@ npm-deploy:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
     - ls -la
-    - npm publish
-  only:
-    - tags
-  except:
-    - branches
+    - npm publish --dry-run
+#  only:
+#    - tags
+#  except:
+#    - branches
 
 pages:
   stage: deploy
@@ -131,6 +133,7 @@ pages:
         - .npm/
       policy: pull
   script:
+    - ls -la
     - npm run docs
     - mv docs public
   artifacts:
