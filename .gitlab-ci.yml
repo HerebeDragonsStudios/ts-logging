@@ -60,6 +60,24 @@ build:
     - npm run build:prod
   interruptible: true
 
+build-test:
+  stage: build
+  needs: ["build"]
+  script:
+    - ls -la
+  cache:
+    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR\
+        paths:
+          - node_modules/
+          - .npm/
+        policy: pull
+    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
+      paths:
+        - dist/
+        - lib/
+      policy: pull
+  interruptible: true
+
 tests:
   stage: test
   needs: ["build"]
