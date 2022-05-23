@@ -3,7 +3,6 @@ variables:
   CACHE_COMPRESSION_LEVEL: "fastest"
   ARTIFACT_COMPRESSION_LEVEL: "fast"
   CACHE_REQUEST_TIMEOUT: 5
-  GIT_CLEAN_FLAGS: -x -f -e lib/** dist/**
 
 default:
   image: node:16
@@ -58,28 +57,19 @@ build:
         - lib/
       policy: push
   script:
-    - ls -a
     - npm run build:prod
-    - ls -la
-  interruptible: true  
+  interruptible: true
 
 tests:
   stage: test
   needs: ["build"]
   script:
-    - ls -la
     - npm run test:ci
-    - ls -la
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
       paths:
         - node_modules/
         - .npm/
-      policy: pull
-    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
-      paths:
-        - dist/
-        - lib/
       policy: pull
     - key: test-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
@@ -102,20 +92,15 @@ npm-deploy:
         - node_modules/
         - .npm/
       policy: pull
-    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
-      paths:
-        - dist/
-        - lib/
-      policy: pull
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" > .npmrc
-    - ls -la
-    - npm publish --dry-run
-#  only:
-#    - tags
-#  except:
-#    - branches
+    - npm run build:prod
+    - npm publish
+  only:
+    - tags
+  except:
+    - branches
 
 pages:
   stage: deploy
@@ -126,17 +111,11 @@ pages:
         - node_modules/
         - .npm/
       policy: pull
-    - key: build-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
-      paths:
-        - dist/
-        - lib/
-      policy: pull
     - key: test-$CI_JOB_IMAGE-$CI_COMMIT_REF_SLUG
       paths:
         - workdocs/coverage/
       policy: pull
   script:
-    - ls -la
     - npm run docs
     - mv docs public
   artifacts:
