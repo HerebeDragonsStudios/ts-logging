@@ -1,6 +1,6 @@
 {
   "name": "@glass-project/logging",
-  "version": "2.2.9",
+  "version": "2.2.8",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
@@ -22,6 +22,10 @@
     "coverage": "npm test && jest-coverage-badges --input \"./workdocs/coverage/coverage-summary.json\" --output \"./workdocs/badges\"",
     "docs": "npx rimraf ./docs && mkdir docs && mkdir docs/assets && cp -r ./workdocs/assets ./docs/assets && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs && npm remove better-docs taffydb"
   },
+  "files": [
+    "dist",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://gitlab.ubitech.eu/glass-project/wallet/logging.git"
