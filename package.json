@@ -23,8 +23,8 @@
     "docs": "npx rimraf ./docs && mkdir docs && mkdir docs/assets && cp -r ./workdocs/assets ./docs/assets && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs && npm remove better-docs taffydb"
   },
   "files": [
-    "dist/",
-    "lib/"
+    "dist",
+    "lib"
   ],
   "repository": {
     "type": "git",
