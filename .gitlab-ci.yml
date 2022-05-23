@@ -52,14 +52,8 @@ tests:
     - ls -la
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-      paths:
-        - node_modules/
-        - .npm/
       policy: pull
     - key: build-$CI_JOB_IMAGE
-      paths:
-        - lib/
-        - dist/
       policy: pull
     - key: test-$CI_JOB_IMAGE
       paths:
@@ -77,31 +71,21 @@ build:
   stage: build
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-      paths:
-        - node_modules/
-        - .npm/
       policy: pull
     - key: build-$CI_JOB_IMAGE
-      paths:
-        - lib/
-        - dist/
       policy: push
   script:
+    - ls -a
     - npm run build:prod
+    - ls -la
 
 npm-deploy:
   stage: deploy
   needs: ["tests", "build"]
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-      paths:
-        - node_modules/
-        - .npm/
       policy: pull
     - key: build-$CI_JOB_IMAGE
-      paths:
-        - lib/
-        - dist/
       policy: pull
   script:
     - echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
@@ -118,19 +102,8 @@ pages:
   needs: ["tests"]
   cache:
     - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-      paths:
-        - node_modules/
-        - .npm/
       policy: pull
     - key: build-$CI_JOB_IMAGE
-      paths:
-        - lib/
-        - dist/
-      policy: pull
-    - key: $CI_COMMIT_REF_SLUG-$CI_PROJECT_DIR
-      paths:
-        - node_modules/
-        - .npm/
       policy: pull
   script:
     - ls -la
