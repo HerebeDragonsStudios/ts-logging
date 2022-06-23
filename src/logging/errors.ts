@@ -1,5 +1,6 @@
 import {getLogger} from "./general";
 import {Callback, LOGGER_LEVELS, LoggerMessage} from "./constants";
+import {stringFormat} from "./utils";
 
 /**
  *
@@ -13,9 +14,15 @@ import {Callback, LOGGER_LEVELS, LoggerMessage} from "./constants";
  * @memberOf db-decorators.errors
  */
 export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]) {
-    // @ts-ignore
-    if (message instanceof Error && message.name === LoggedError.constructor.name && message.loggedAt && message.loggetAt >= level)
+    if (message instanceof LoggedError && message.loggedAt && message.loggedAt >= level)
         return callback(message);
+    if (message instanceof LoggedError){
+        if (message.loggedAt !== undefined && message.loggedAt < level){
+            getLogger().report(message, level, this, ...args)
+            message.loggedAt = level;
+        }
+        return callback(message);
+    }
     const error: LoggedError = new LoggedError(message, this && this.name !== "loggedCallback" ? this : undefined, level, ...args);
     callback(error);
 }
@@ -125,15 +132,14 @@ export class LoggedError extends Error {
     issuer?: any;
 
     constructor(error: LoggerMessage, issuer: any = undefined, level: number = LOGGER_LEVELS.ALL, ...args: any[]) {
-        super(error instanceof Error ? error.message : error);
+        super(error instanceof Error ? error.message : (typeof error === 'string' ? stringFormat(error, ...args) : error));
         this.name = LoggedError.constructor.name;
-        // @ts-ignore
         this.loggedAt = error instanceof Error && error.name === LoggedError.constructor.name ? error.loggedAt : undefined;
         this.issuer = issuer;
 
         // @ts-ignore
         if (error.loggedAt === undefined || error.loggedAt < level) {
-            getLogger().report(this, level, issuer, ...args);
+            getLogger().report(this as LoggerMessage, level, issuer, ...args);
             this.loggedAt = level;
         }
     }

@@ -39,7 +39,7 @@ export type Callback = (err?: Err, ...args: any[]) => void;
  * @typedef LoggerMessage
  * @memberOf logging.logging
  */
-export type LoggerMessage = Error | string;
+export type LoggerMessage = (Error & {loggedAt?: number}) | string;
 
 /**
  * @constant DEFAULT_TIMESTAMP_FORMAT
