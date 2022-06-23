@@ -1,6 +1,6 @@
 {
   "name": "@glass-project/logging",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
