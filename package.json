@@ -78,8 +78,6 @@
     "webpack-stream": "^7.0.0"
   },
   "dependencies": {
-    "better-docs": "^2.7.2",
-    "reflect-metadata": "^0.1.13",
-    "taffydb": "^2.7.3"
+    "reflect-metadata": "^0.1.13"
   }
 }
