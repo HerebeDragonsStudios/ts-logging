@@ -18,7 +18,7 @@ export function loggedCallback(this: any, message: LoggerMessage, level: number,
         return callback(message);
     if (message instanceof LoggedError){
         if (message.loggedAt !== undefined && message.loggedAt < level){
-            getLogger().report(message, level, this, ...args)
+            getLogger().report(message, level, this && this.name !== "loggedCallback" ? this : undefined, ...args)
             message.loggedAt = level;
         }
         return callback(message);
