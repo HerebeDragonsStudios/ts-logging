@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "module": "./lib/index.js",
   "publishConfig": {
-    "@glass-project:registry": " https://gitlab.ubitech.eu/api/v4/projects/687/packages/npm/"
+    "@glass-project:registry": " https://gitlab.com/api/v4/projects/687/packages/npm/"
   },
   "scripts": {
     "start:dev": "nodemon",
@@ -28,7 +28,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.ubitech.eu/glass-project/wallet/logging.git"
+    "url": "git+https://gitlab.com/glass-project/wallet/logging.git"
   },
   "engines": {
     "node": ">=16.0.0",
@@ -50,9 +50,9 @@
   "author": "PDM&FC",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.ubitech.eu/glass-project/wallet/logging/issues"
+    "url": "https://gitlab.com/glass-project/wallet/logging/issues"
   },
-  "homepage": "https://gitlab.ubitech.eu/glass-project/wallet/logging#readme",
+  "homepage": "https://gitlab.com/glass-project/wallet/logging#readme",
   "devDependencies": {
     "@types/jest": "27.0.3",
     "@types/node": "^16.0.1",
