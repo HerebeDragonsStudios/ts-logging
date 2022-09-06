@@ -1,11 +1,11 @@
 {
   "name": "@glass-project/logging",
-  "version": "2.4.0",
+  "version": "2.3.2",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
   "publishConfig": {
-    "@glass-project:registry": " https://gitlab.com/api/v4/projects/687/packages/npm/"
+    "@glass-project:registry": " https://gitlab.com/api/v4/projects/39103644/packages/npm/"
   },
   "scripts": {
     "start:dev": "nodemon",
