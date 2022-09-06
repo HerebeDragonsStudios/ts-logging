@@ -1,9 +1,9 @@
 [![Banner](https://static.wixstatic.com/media/2844e6_eb52a8ed1a5249eb87ddc015c7be7ce2~mv2.jpg/v1/fill/w_438,h_156,al_c,q_80,usm_0.66_1.00_0.01/2021-01-21_11-35-06.webp)](https://www.glass-h2020.eu/)
 
 #### Status
-[![Build](https://gitlab.com/glass-project/wallet/logging/badges/master/pipeline.svg)](http://www.pdmfc.com)
+[![Build](https://gitlab.com/glass-project1/wallet/logging/badges/master/pipeline.svg)](http://www.pdmfc.com)
 
-![coverage](https://gitlab.com/glass-project/wallet/logging/badges/main/coverage.svg?job=coverage)
+![coverage](https://gitlab.com/glass-project1/wallet/logging/badges/main/coverage.svg?job=coverage)
 
 
 
@@ -27,12 +27,12 @@ In order to use the logging package, we need to follow a list of steps presented
 
 To install as a dependency do:
 ```sh
-$ npm install @glass-project/logging
+$ npm install @glass-project1/logging
 ```
 
 To install as a dev dependency do:
 ```sh
-$ npm install @glass-project/logging --save-dev
+$ npm install @glass-project1/logging --save-dev
 ```
 instead.
 

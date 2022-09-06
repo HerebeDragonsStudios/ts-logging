@@ -33,7 +33,7 @@ const argParser = function(defaultOpts, args){
     return config;
 }
 
-const glassPrefix = "@glass-project/"
+const glassPrefix = "@glass-project1/"
 let {name, version} = require('./package.json');
 
 if (name.indexOf(glassPrefix) !== -1)
