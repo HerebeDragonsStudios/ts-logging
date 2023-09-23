@@ -15,9 +15,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: actions/cache@v3.3.2
+      - name: Cache Node Modules
+        uses: actions/cache@v3.3.2
         with:
-          path: |-
+          path: |
             node_modules/
             .npm/
           key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
@@ -32,17 +33,19 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4.0.0
-      - uses: actions/cache@v3.3.2
+      - name:  Restoring Node Modules
+        uses: actions/cache@v3.3.2
         with:
-          restore-keys: |
-            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-      - uses: actions/cache@v3.3.2
+          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+      - name: Caching build code
+        uses: actions/cache@v3.3.2
         with:
-          path: |-
+          path: |
             dist/
             lib/
           key: build-${{ github.ref }}-${{ github.workspace }}
-      - run: npm run build:prod
+      - name: Building solution...
+        run: npm run build:prod
 
   tests:
     needs: build
@@ -52,12 +55,16 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4.0.0
-      - uses: actions/cache@v3.3.2
+      - name: Restoring Node Modules
+        uses: actions/cache@v3.3.2
         with:
-          restore-keys: |
-            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-            build-${{ github.ref }}-${{ github.workspace }}
-      - uses: actions/cache@v3.3.2
+          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+      - name: Restoring built solution...
+        uses: actions/cache@v3.3.2
+          with:
+            key: build-${{ github.ref }}-${{ github.workspace }}
+      - name: Caching test results...
+        uses: actions/cache@v3.3.2
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}-${{ github.workspace }}
@@ -70,21 +77,29 @@ jobs:
       - tests
       - build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # allow GITHUB_TOKEN to publish packages
     container:
       image: node:18
     if: (startsWith(github.ref, 'refs/tags')) && !(startsWith(github.ref, 'refs/heads'))
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4.0.0
-      - uses: actions/cache@v3.3.2
+      - name: Restoring Node Modules
+        uses: actions/cache@v3.3.2
         with:
-          restore-keys: |
-            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-            build-${{ github.ref }}-${{ github.workspace }}
-      - uses: actions/download-artifact@v3.0.2
+          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+      - name: Restoring built solution...
+        uses: actions/cache@v3.3.2
+        with:
+          key: build-${{ github.ref }}-${{ github.workspace }}
       - run: echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to NPM registry."
-      - run: echo "//${{ github.server_url }}/api/v4/projects/${{ github.repository }}/packages/npm/:_authToken=${{ github.token }}" > .npmrc
-      - run: npm publish
+      - name: Publishing to npm...
+        uses: JS-DevTools/npm-publish@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          registry: "https://npm.pkg.github.com"
 
   pages:
     needs: tests
@@ -95,11 +110,14 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4.0.0
-      - uses: actions/cache@v3.3.2
+      - name: Restoring Node Modules
+        uses: actions/cache@v3.3.2
         with:
-          restore-keys: |
-            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-            test-${{ github.ref }}-${{ github.workspace }}
+          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+      - name: Restoring built solution...
+        uses: actions/cache@v3.3.2
+        with:
+          key: test-${{ github.ref }}-${{ github.workspace }}
       - run: npm run docs
       - run: mv docs public
       - uses: actions/upload-artifact@v3.1.3

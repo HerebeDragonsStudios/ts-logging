@@ -30,11 +30,7 @@
             "navLinks": [
                 {
                     "label": "Gitlab Repository",
-                    "href": "https://gitlab.com/glass-project1/wallet/logging#readme"
-                },
-                {
-                    "label": "PDM&FC",
-                    "href": "https://www.pdmfc.com"
+                    "href": "https://github.com:HerebeDragonsStudios/ts-logging#readme"
                 }
             ]
         },

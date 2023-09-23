@@ -14,11 +14,11 @@ In order to use the logging package, we need to follow a list of steps presented
 
 To install as a dependency do:
 ```sh
-$ npm install @glass-project1/logging
+$ npm install @herebedragonsstudios/ts-logging
 ```
 
 To install as a dev dependency do:
 ```sh
-$ npm install @glass-project1/logging --save-dev
+$ npm install @herebedragonsstudios/ts-logging --save-dev
 ```
 instead.
