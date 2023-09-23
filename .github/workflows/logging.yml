@@ -1,23 +1,16 @@
-name: glass-project1/wallet/logging
+name: herebedragons-studios/ts-logging
 on:
   push:
   workflow_dispatch:
 concurrency:
   group: "${{ github.ref }}"
   cancel-in-progress: true
-env:
-  GP_ENCLAVE_KEY: "${{ secrets.GP_ENCLAVE_KEY }}"
 jobs:
   install:
     runs-on: ubuntu-latest
     container:
-      image: node:16
+      image: node:18
     timeout-minutes: 60
-    env:
-      FF_USE_FASTZIP: 1
-      CACHE_COMPRESSION_LEVEL: fastest
-      ARTIFACT_COMPRESSION_LEVEL: fast
-      CACHE_REQUEST_TIMEOUT: 5
     steps:
     - uses: actions/checkout@v4.0.0
       with:
@@ -28,7 +21,7 @@ jobs:
         path: |-
           node_modules/
           .npm/
-        key: dependencies-${{ github.ref }}-${{ github.workspace }}
+        key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
     - run: |
         if [[ ! -f package.json ]]; then
           echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
@@ -38,18 +31,13 @@ jobs:
     - run: NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
     - run: NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
     - run: npm ci --cache .npm --prefer-offline
-    - run: npm ci --cache .npm --prefer-offline
+    
   build:
     needs: install
     runs-on: ubuntu-latest
     container:
-      image: node:16
+      image: node:18
     timeout-minutes: 60
-    env:
-      FF_USE_FASTZIP: 1
-      CACHE_COMPRESSION_LEVEL: fastest
-      ARTIFACT_COMPRESSION_LEVEL: fast
-      CACHE_REQUEST_TIMEOUT: 5
     steps:
     - uses: actions/checkout@v4.0.0
       with:
@@ -57,75 +45,23 @@ jobs:
         lfs: true
     - uses: actions/cache@v3.3.2
       with:
-        path: |-
-          node_modules/
-          .npm/
-        key: dependencies-${{ github.ref }}-${{ github.workspace }}
+        restore-keys: |
+            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
     - uses: actions/cache@v3.3.2
       with:
         path: |-
           dist/
           lib/
         key: build-$CI_JOB_IMAGE-${{ github.ref }}
-    - run: |
-        if [[ ! -f package.json ]]; then
-          echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
-          echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#creating-a-project'
-          exit 1
-        fi
-    - run: NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
-    - run: NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
     - run: npm ci --cache .npm --prefer-offline
     - run: npm run build:prod
-  build-test:
-    needs: build
-    runs-on: ubuntu-latest
-    container:
-      image: node:16
-    timeout-minutes: 60
-    env:
-      FF_USE_FASTZIP: 1
-      CACHE_COMPRESSION_LEVEL: fastest
-      ARTIFACT_COMPRESSION_LEVEL: fast
-      CACHE_REQUEST_TIMEOUT: 5
-    steps:
-    - uses: actions/checkout@v4.0.0
-      with:
-        fetch-depth: 20
-        lfs: true
-    - uses: actions/cache@v3.3.2
-      with:
-        path: |-
-          node_modules/
-          .npm/
-        key: dependencies-${{ github.ref }}-${{ github.workspace }}
-    - uses: actions/cache@v3.3.2
-      with:
-        path: |-
-          dist/
-          lib/
-        key: build-$CI_JOB_IMAGE-${{ github.ref }}
-    - run: |
-        if [[ ! -f package.json ]]; then
-          echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
-          echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#creating-a-project'
-          exit 1
-        fi
-    - run: NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
-    - run: NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    - run: npm ci --cache .npm --prefer-offline
-    - run: ls -la
+    
   tests:
     needs: build
     runs-on: ubuntu-latest
     container:
-      image: node:16
+      image: node:18
     timeout-minutes: 60
-    env:
-      FF_USE_FASTZIP: 1
-      CACHE_COMPRESSION_LEVEL: fastest
-      ARTIFACT_COMPRESSION_LEVEL: fast
-      CACHE_REQUEST_TIMEOUT: 5
     steps:
     - uses: actions/checkout@v4.0.0
       with:
@@ -133,46 +69,26 @@ jobs:
         lfs: true
     - uses: actions/cache@v3.3.2
       with:
-        path: |-
-          node_modules/
-          .npm/
-        key: dependencies-${{ github.ref }}-${{ github.workspace }}
-    - uses: actions/cache@v3.3.2
-      with:
-        path: |-
-          dist/
-          lib/
-        key: build-$CI_JOB_IMAGE-${{ github.ref }}
+        restore-keys: |
+            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+            build-$CI_JOB_IMAGE-${{ github.ref }}
     - uses: actions/cache@v3.3.2
       with:
         path: workdocs/coverage/
         key: test-$CI_JOB_IMAGE-${{ github.ref }}
-    - run: |
-        if [[ ! -f package.json ]]; then
-          echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
-          echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#creating-a-project'
-          exit 1
-        fi
-    - run: NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
-    - run: NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    - run: npm ci --cache .npm --prefer-offline
     - run: npm run test:ci
 #     # 'artifacts.junit' was not transformed because there is no suitable equivalent in GitHub Actions
 #     # 'coverage' was not transformed because there is no suitable equivalent in GitHub Actions.
+
   npm-deploy:
     needs:
     - tests
     - build
     runs-on: ubuntu-latest
     container:
-      image: node:16
+      image: node:18
     if: (startsWith(github.ref, 'refs/tags')) && !(startsWith(github.ref, 'refs/heads'))
     timeout-minutes: 60
-    env:
-      FF_USE_FASTZIP: 1
-      CACHE_COMPRESSION_LEVEL: fastest
-      ARTIFACT_COMPRESSION_LEVEL: fast
-      CACHE_REQUEST_TIMEOUT: 5
     steps:
     - uses: actions/checkout@v4.0.0
       with:
@@ -180,44 +96,22 @@ jobs:
         lfs: true
     - uses: actions/cache@v3.3.2
       with:
-        path: |-
-          node_modules/
-          .npm/
-        key: dependencies-${{ github.ref }}-${{ github.workspace }}
-    - uses: actions/cache@v3.3.2
-      with:
-        path: |-
-          dist/
-          lib/
-        key: build-$CI_JOB_IMAGE-${{ github.ref }}
+        restore-keys: |
+            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+            build-$CI_JOB_IMAGE-${{ github.ref }}
     - uses: actions/download-artifact@v3.0.2
-    - run: |
-        if [[ ! -f package.json ]]; then
-          echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
-          echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#creating-a-project'
-          exit 1
-        fi
-    - run: NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
-    - run: NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
-    - run: npm ci --cache .npm --prefer-offline
-    - run: echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to GitLab's NPM registry."
+    - run: echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to NPM registry."
     - run: echo "//${{ github.server_url }}/api/v4/projects/${{ github.repository }}/packages/npm/:_authToken=${{ github.token }}" > .npmrc
     - run: npm run build:prod
     - run: npm publish
+    
   pages:
     needs: tests
     runs-on: ubuntu-latest
     container:
-      image: node:16
-    if: # Unable to map conditional expression to GitHub Actions equivalent
-#         ${{ github.ref }} == "master" || ${{ github.ref }}
+      image: node:18
     timeout-minutes: 60
     continue-on-error: true
-    env:
-      FF_USE_FASTZIP: 1
-      CACHE_COMPRESSION_LEVEL: fastest
-      ARTIFACT_COMPRESSION_LEVEL: fast
-      CACHE_REQUEST_TIMEOUT: 5
     steps:
     - uses: actions/checkout@v4.0.0
       with:
@@ -225,23 +119,10 @@ jobs:
         lfs: true
     - uses: actions/cache@v3.3.2
       with:
-        path: |-
-          node_modules/
-          .npm/
-        key: dependencies-${{ github.ref }}-${{ github.workspace }}
-    - uses: actions/cache@v3.3.2
-      with:
-        path: workdocs/coverage/
-        key: test-$CI_JOB_IMAGE-${{ github.ref }}
+        restore-keys: |
+            dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+            test-$CI_JOB_IMAGE-${{ github.ref }}
     - uses: actions/download-artifact@v3.0.2
-    - run: |
-        if [[ ! -f package.json ]]; then
-          echo "No package.json found! A package.json file is required to publish a package to GitLab's NPM registry."
-          echo 'For more information, see https://docs.gitlab.com/ee/user/packages/npm_registry/#creating-a-project'
-          exit 1
-        fi
-    - run: NPM_PACKAGE_NAME=$(node -p "require('./package.json').name")
-    - run: NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
     - run: npm ci --cache .npm --prefer-offline
     - run: npm run docs
     - run: mv docs public
