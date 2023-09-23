@@ -3,8 +3,8 @@
 ```
 logging
 │
+│   .github                 <-- Workflows folder
 │   .gitignore              <-- Defines files ignored to git
-│   .gitlab-ci.yml          <-- GitLab CI/CD config file
 │   .nmpignore              <-- Defines files ignored by npm
 │   .nmprc                  <-- Defines the Npm registry for this package
 │   gulpfile.js             <-- Gulp build scripts. used in the 'build' and 'build:prod' npm scripts
