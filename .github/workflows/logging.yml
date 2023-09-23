@@ -41,7 +41,7 @@ jobs:
           path: |-
             dist/
             lib/
-          key: build-$CI_JOB_IMAGE-${{ github.ref }}
+          key: build-${{ github.ref }}-${{ github.workspace }}
       - run: npm run build:prod
 
   tests:
@@ -56,11 +56,11 @@ jobs:
         with:
           restore-keys: |
             dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-            build-$CI_JOB_IMAGE-${{ github.ref }}
+            build-${{ github.ref }}-${{ github.workspace }}
       - uses: actions/cache@v3.3.2
         with:
           path: workdocs/coverage/
-          key: test-$CI_JOB_IMAGE-${{ github.ref }}
+          key: test-${{ github.ref }}-${{ github.workspace }}
       - run: npm run test:ci
   #     # 'artifacts.junit' was not transformed because there is no suitable equivalent in GitHub Actions
   #     # 'coverage' was not transformed because there is no suitable equivalent in GitHub Actions.
@@ -80,7 +80,7 @@ jobs:
         with:
           restore-keys: |
             dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-            build-$CI_JOB_IMAGE-${{ github.ref }}
+            build-${{ github.ref }}-${{ github.workspace }}
       - uses: actions/download-artifact@v3.0.2
       - run: echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to NPM registry."
       - run: echo "//${{ github.server_url }}/api/v4/projects/${{ github.repository }}/packages/npm/:_authToken=${{ github.token }}" > .npmrc
@@ -99,9 +99,7 @@ jobs:
         with:
           restore-keys: |
             dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-            test-$CI_JOB_IMAGE-${{ github.ref }}
-      - uses: actions/download-artifact@v3.0.2
-      - run: npm ci --cache .npm --prefer-offline
+            test-${{ github.ref }}-${{ github.workspace }}
       - run: npm run docs
       - run: mv docs public
       - uses: actions/upload-artifact@v3.1.3
