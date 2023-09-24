@@ -23,7 +23,8 @@
   },
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "Changelog.md"
   ],
   "repository": {
     "type": "git",
