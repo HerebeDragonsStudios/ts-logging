@@ -153,7 +153,9 @@ jobs:
         with:
           name: test-results
           path: public
-      - run: apt install -y rsync
+      - name: Install rsync
+        run: |
+          apt-get update && apt-get install -y rsync
       - name: Deploying Documentation Website
         uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
