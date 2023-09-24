@@ -17,7 +17,7 @@ export const LOGGER_LEVELS = {
  *
  * constant LOGGING_MSG
  *
- * @memberOf logging.logging
+ * @memberOf logging
  */
 export const LOGGING_MSG = {
     LEVEL_CHANGED: "Logger Level changed from {0} to {1}",
@@ -34,6 +34,12 @@ export type Err = Error | string | undefined;
  * @memberOf logging.logging
  * */
 export type Callback = (err?: Err, ...args: any[]) => void;
+
+/**
+ * @typedef Callback
+ * @memberOf logging.logging
+ * */
+export type GenericCallback<T> = (err?: Err, result?: T, ...args: any[]) => void;
 
 /**
  * @typedef LoggerMessage

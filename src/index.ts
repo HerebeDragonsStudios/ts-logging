@@ -1,5 +1,10 @@
 /**
- * @module logging
+ * @namespace logging
  */
 
-export * from './logging';
+export * from './constants';
+export * from './utils';
+export * from './general';
+export * from './errors';
+export * from './decorators';
+export * from './versions';

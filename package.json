@@ -1,5 +1,5 @@
 {
-  "name": "@herebedragons-studios/ts-logging",
+  "name": "ts-logging",
   "version": "0.0.1",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./lib/index.js",
@@ -10,17 +10,16 @@
   "scripts": {
     "start:dev": "nodemon",
     "start": "npm run build && node lib/index.js",
-    "build": "rimraf ./lib && rimraf ./dist && gulp --stage=build --mode=development",
-    "build:prod": "rimraf ./lib && rimraf ./dist && gulp --stage=deploy --mode=development",
+    "build": "rimraf ./lib && rimraf ./dist && gulp dev",
+    "build:prod": "rimraf ./lib && rimraf ./dist && gulp prod",
     "test": "jest --coverage --testPathPattern=\"/tests/unit\"",
-    "test:all": "npm run test:opendsu && jest --coverage --testPathPattern=\"/tests/(unit|integration)\" --passWithNoTests --detectOpenHandles",
-    "test:ci": "npm install @glass-project1/dsu-utils && node ./node_modules/@glass-project1/dsu-utils/src/cli.js --action=workspace setup",
-    "test:opendsu": "npm install @glass-project1/dsu-utils && jest --coverage=false --passWithNoTests --testPathPattern=\"/tests/after-dsu\" --detectOpenHandles --globalSetup=\"./node_modules/@glass-project1/dsu-utils/src/jest-setup.js\"",
+    "test:integration": "jest --coverage --testPathPattern=\"/tests/(integration)\" --passWithNoTests --detectOpenHandles",
+    "test:all": "jest --coverage --testPathPattern=\"/tests/(unit|integration)\" --passWithNoTests --detectOpenHandles",
     "prepare-release": "npm run build:prod && npm run test && npm run docs",
     "release": "./bin/tag-release.sh",
     "clean-publish": "npx clean-publish",
     "coverage": "npm test && jest-coverage-badges --input \"./workdocs/coverage/coverage-summary.json\" --output \"./workdocs/badges\"",
-    "docs": "npx rimraf ./docs && mkdir docs && mkdir docs/assets && cp -r ./workdocs/assets ./docs/assets && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs && npm remove better-docs taffydb"
+    "docs": "npx rimraf ./docs && mkdir docs && mkdir docs/assets && cp -r ./workdocs/assets ./docs/assets && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs; npm remove better-docs taffydb"
   },
   "files": [
     "dist",
