@@ -9,7 +9,7 @@ const merge = require('merge-stream');
 const named = require('vinyl-named');
 const replace = require('gulp-replace');
 const webpack = require('webpack-stream');
-const run = require("gulp-run-command")
+const run = require("gulp-run-command").default
 
 let {name, version} = require('./package.json');
 
@@ -133,34 +133,35 @@ exports.prod = series(
 
 function docs(){
     const copyFiles = (source, destination) => {
-        return src(source , { base: '.' }).pipe(dest(destination));
+        return function copyFiles(){
+            return src(source , { base: '.' }).pipe(dest(destination));
+        }
     }
 
-    const compileReadme = () => {
-        return run("npx markdown-include ./mdCompile.json")
+    function compileReadme ()  {
+        return run("npx markdown-include ./mdCompile.json")()
     }
 
-    const compileDocs = () => {
-        return run("npx jsdoc -c jsdocs.json -t ./node_modules/better-docs")
+    function compileDocs() {
+        return run("npx jsdoc -c jsdocs.json -t ./node_modules/better-docs")()
     }
 
 
     return series(compileReadme, compileDocs, parallel(...[
             {
-                src: ".workdocs/assets",
+                src: "workdocs/assets",
                 dest:  "./docs/assets"
             },
             {
-                src: ".workdocs/coverage",
+                src: "workdocs/coverage",
                 dest:  "./docs/coverage"
             },
             {
-                src: ".workdocs/badges",
+                src: "workdocs/badges",
                 dest:  "./docs/badges"
             }
         ].map(e => copyFiles(e.src, e.dest)))
     )
 }
 
-
-exports.docs = docs
+exports.docs = docs()

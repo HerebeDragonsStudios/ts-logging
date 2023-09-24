@@ -19,7 +19,7 @@
     "release": "./bin/tag-release.sh",
     "clean-publish": "npx clean-publish",
     "coverage": "npm run test:all && jest-coverage-badges --input \"./workdocs/coverage/coverage-summary.json\" --output \"./workdocs/badges\"",
-    "docs": "npx rimraf ./docs && mkdir docs && cp -r ./workdocs/assets ./docs/assets && cp -r ./workdocs/coverage ./docs/coverage && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs; npm remove better-docs taffydb"
+    "docs": "npx rimraf ./docs && mkdir docs &&  npm install better-docs taffydb && gulp docs; npm remove better-docs taffydb"
   },
   "files": [
     "dist",
