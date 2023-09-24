@@ -7,7 +7,7 @@
  *
  * @function stringFormat
  *
- * @memberOf logging.logging
+ * @category Utils
  */
 import {DAYS_OF_WEEK_NAMES, MONTH_NAMES} from "./constants";
 
@@ -39,7 +39,7 @@ export function getObjectName(obj: any): string | undefined {
  *
  * @function stringFormat
  *
- * @memberOf logging.logging
+ * @category Utils
  */
 export function stringFormat(string: string, ...args: string[]){
     return string.replace(/{(\d+)}/g, function(match, number) {
@@ -75,7 +75,7 @@ export function stringFormat(string: string, ...args: string[]){
  *
  * @function formatDate
  *
- * @memberOf logging.logging
+ * @category Utils
  */
 export function formatDate(date: Date, patternStr: string = 'yyyy/MM/dd'){
     const day: number = date.getDate(),
@@ -135,7 +135,7 @@ export function formatDate(date: Date, patternStr: string = 'yyyy/MM/dd'){
  *
  * @function twoDigitPad
  *
- * @memberOf logging.logging
+ * @category Utils
  */
 export function twoDigitPad(num: number): string {
     return num < 10 ? "0" + num : num.toString();

@@ -36,6 +36,9 @@ jobs:
       - name:  Restoring Node Modules
         uses: actions/cache@v3.3.2
         with:
+          path: |
+            node_modules/
+            .npm/
           key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
       - name: Caching build code
         uses: actions/cache@v3.3.2
@@ -58,10 +61,16 @@ jobs:
       - name: Restoring Node Modules
         uses: actions/cache@v3.3.2
         with:
+          path: |
+            node_modules/
+            .npm/
           key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
       - name: Restoring built solution...
         uses: actions/cache@v3.3.2
         with:
+          path: |
+            dist/
+            lib/
           key: build-${{ github.ref }}-${{ github.workspace }}
       - name: Caching test results...
         uses: actions/cache@v3.3.2
@@ -89,13 +98,19 @@ jobs:
       - name: Restoring Node Modules
         uses: actions/cache@v3.3.2
         with:
+          path: |
+            node_modules/
+            .npm/
           key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
       - name: Restoring built solution...
         uses: actions/cache@v3.3.2
         with:
+          path: |
+            dist/
+            lib/
           key: build-${{ github.ref }}-${{ github.workspace }}
       - run: echo "Attempting to publish package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to NPM registry."
-      - name: Publishing to npm...
+      - name: Publishing package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to NPM registry.
         uses: JS-DevTools/npm-publish@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -113,19 +128,25 @@ jobs:
       - name: Restoring Node Modules
         uses: actions/cache@v3.3.2
         with:
+          path: |
+            node_modules/
+            .npm/
           key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
-      - name: Restoring built solution...
+      - name: Restoring Test Results...
         uses: actions/cache@v3.3.2
         with:
+          path: workdocs/coverage/
           key: test-${{ github.ref }}-${{ github.workspace }}
       - run: npm run docs
       - run: mv docs public
-      - uses: actions/upload-artifact@v3.1.3
+      - name: Uploading Documentation
+        uses: actions/upload-artifact@v3.1.3
         if: success()
         with:
           name: "${{ github.job }}"
           path: public
-      - uses: JamesIves/github-pages-deploy-action@v4.4.3
+      - name: Deploying Documentation Website
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: gh-pages
           folder: public

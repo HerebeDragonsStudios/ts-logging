@@ -1,8 +1,7 @@
-[![Banner](https://static.wixstatic.com/media/2844e6_eb52a8ed1a5249eb87ddc015c7be7ce2~mv2.jpg/v1/fill/w_438,h_156,al_c,q_80,usm_0.66_1.00_0.01/2021-01-21_11-35-06.webp)](https://www.glass-h2020.eu/)
+[![Banner](../assets/banner.png)](https://www.glass-h2020.eu/)
 
 #### Status
-[![Build](https://gitlab.com/glass-project1/wallet/logging/badges/master/pipeline.svg)](http://www.pdmfc.com)
-
+![example workflow](https://github.com/herebedragonsstudios/ts-logging/actions/workflows/main.yml/badge.svg)
 ![coverage](https://gitlab.com/glass-project1/wallet/logging/badges/main/coverage.svg?job=coverage)
 
 
@@ -27,12 +26,12 @@ In order to use the logging package, we need to follow a list of steps presented
 
 To install as a dependency do:
 ```sh
-$ npm install @glass-project1/logging
+$ npm install @herebedragonsstudios/ts-logging
 ```
 
 To install as a dev dependency do:
 ```sh
-$ npm install @glass-project1/logging --save-dev
+$ npm install @herebedragonsstudios/ts-logging --save-dev
 ```
 instead.
 
@@ -45,8 +44,8 @@ instead.
 ```
 logging
 │
+│   .github                 <-- Workflows folder
 │   .gitignore              <-- Defines files ignored to git
-│   .gitlab-ci.yml          <-- GitLab CI/CD config file
 │   .nmpignore              <-- Defines files ignored by npm
 │   .nmprc                  <-- Defines the Npm registry for this package
 │   gulpfile.js             <-- Gulp build scripts. used in the 'build' and 'build:prod' npm scripts
@@ -83,6 +82,7 @@ logging
 ```
 
 
+
 ### Repository Languages
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -95,9 +95,4 @@ logging
 
 ### Social
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://pt.linkedin.com/company/pdmfc)
-
-
-#### Disclaimer:
-
-![Disclamer](https://static.wixstatic.com/media/2844e6_69acaab42d5a47c9a20a187b384741ef~mv2.png/v1/fill/w_531,h_65,al_c,q_85,usm_0.66_1.00_0.01/2021-01-21_11-27-05_edited.webp)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tiagovenceslau/)

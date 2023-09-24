@@ -11,7 +11,7 @@ import {stringFormat} from "./utils";
  *
  * @function loggedCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]) {
     if (message instanceof LoggedError && message.loggedAt && message.loggedAt >= level)
@@ -35,7 +35,7 @@ export function loggedCallback(this: any, message: LoggerMessage, level: number,
  *
  * @function allCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.ALL, callback, ...args);
@@ -49,7 +49,7 @@ export function allCallback(this: any, message: LoggerMessage, callback: Callbac
  *
  * @function debugCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.DEBUG, callback, ...args);
@@ -63,7 +63,7 @@ export function debugCallback(this: any, message: LoggerMessage, callback: Callb
  *
  * @function infoCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function infoCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.INFO, callback, ...args);
@@ -77,7 +77,7 @@ export function infoCallback(this: any, message: LoggerMessage, callback: Callba
  *
  * @function warningCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function warningCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.WARN, callback, ...args);
@@ -91,7 +91,7 @@ export function warningCallback(this: any, message: LoggerMessage, callback: Cal
  *
  * @function errorCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function errorCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.ERROR, callback, ...args);
@@ -105,7 +105,7 @@ export function errorCallback(this: any, message: LoggerMessage, callback: Callb
  *
  * @function criticalCallback
  *
- * @memberOf db-decorators.errors
+ * @category Callbacks
  */
 export function criticalCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
     loggedCallback.call(this, message, LOGGER_LEVELS.CRITICAL, callback, ...args);
@@ -150,7 +150,6 @@ export class LoggedError extends Error {
  *
  * @class CriticalError
  * @extends LoggedError
- *
  */
 export class CriticalError extends LoggedError {
     constructor(error: LoggerMessage, issuer: any = undefined, ...args: any[]) {

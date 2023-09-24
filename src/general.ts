@@ -3,7 +3,6 @@ import {DEFAULT_TIMESTAMP_FORMAT, LOGGER_LEVELS, LoggerMessage, LOGGING_MSG} fro
 
 /**
  * @interface Logger
- * @memberOf logging.logging
  */
 export interface Logger {
     /**
@@ -224,7 +223,7 @@ let currentLogger: Logger;
  *
  * @function getLogger
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export function getLogger() {
     if (!currentLogger)
@@ -239,7 +238,7 @@ export function getLogger() {
  *
  * @function setLogger
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export function setLogger(logger: Logger) {
     currentLogger = logger;
@@ -253,7 +252,7 @@ export function setLogger(logger: Logger) {
  *
  * @function info
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export const info = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().info(message, this, ...args);
@@ -265,7 +264,7 @@ export const info = function (this: any, message: LoggerMessage, ...args: any[])
  *
  * @function all
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export const all = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().all(message, this, ...args);
@@ -277,7 +276,7 @@ export const all = function (this: any, message: LoggerMessage, ...args: any[]) 
  *
  * @function debug
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export const debug = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().debug(message, this, ...args);
@@ -289,7 +288,7 @@ export const debug = function (this: any, message: LoggerMessage, ...args: any[]
  *
  * @function warn
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export const warn = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().warn(message, this, ...args);
@@ -301,7 +300,7 @@ export const warn = function (this: any, message: LoggerMessage, ...args: any[])
  *
  * @function error
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export const error = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().error(message, this, ...args);
@@ -313,7 +312,7 @@ export const error = function (this: any, message: LoggerMessage, ...args: any[]
  *
  * @function critical
  *
- * @memberOf db-decorators.logging
+ * @category Logging
  */
 export const critical = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().critical(message, this, ...args);
