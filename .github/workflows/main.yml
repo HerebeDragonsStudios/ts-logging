@@ -81,7 +81,7 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: test-results
+          name: test-results-${{ github.ref }}
           path: workdocs/coverage
 
   npm-deploy:
@@ -151,7 +151,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.3
         if: success()
         with:
-          name: "test-results${{ github.job }}"
+          name: test-results-${{ github.ref }}
           path: public
       - name: Deploying Documentation Website
         uses: JamesIves/github-pages-deploy-action@v4.4.3
