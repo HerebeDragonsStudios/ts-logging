@@ -3,6 +3,10 @@ import {CriticalError} from "./errors";
 import {Callback, Err, LOGGER_LEVELS} from "./constants";
 
 /**
+ * @namespace Decorators
+ */
+
+/**
  * Util class to measure time between two points in time;
  *
  * @class StopWatch
@@ -44,7 +48,7 @@ export class StopWatch{
  * @param {number} [level] Logging Level as in {@link LOGGER_LEVELS} defaults to {@link LOGGER_LEVELS.DEBUG}
  * @param {boolean} [benchmark] determines if the logging includes the duration in ms. defaults to false
  *
- * @category Decorators
+ * @memberOf Decorators
  *
  */
 export function logAsync(level: number | boolean = LOGGER_LEVELS.DEBUG, benchmark?: boolean) {
@@ -98,7 +102,7 @@ export function logAsync(level: number | boolean = LOGGER_LEVELS.DEBUG, benchmar
  * @param {number} [level] Logging Level as in {@link LOGGER_LEVELS} defaults to {@link LOGGER_LEVELS.DEBUG}
  * @param {boolean} [benchmark] determines if the logging includes the duration in ms. defaults to false
  *
- * @category Decorators
+ * @memberOf Decorators
  */
 export function logSync(level: number | boolean = LOGGER_LEVELS.DEBUG, benchmark?: boolean) {
 

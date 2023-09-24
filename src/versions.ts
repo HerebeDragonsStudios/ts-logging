@@ -3,10 +3,17 @@ import {LOGGER_LEVELS} from "./constants";
 
 /**
  * Util class to track lib versions across projects
+ *
+ * @class VersionTracker
+ *
  */
 export class VersionTracker {
     private cache: Record<string, string> = {}
 
+    /**
+     *
+     * @private
+     */
     private constructor() {
     }
 

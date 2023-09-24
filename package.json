@@ -18,8 +18,8 @@
     "prepare-release": "npm run build:prod && npm run test && npm run docs",
     "release": "./bin/tag-release.sh",
     "clean-publish": "npx clean-publish",
-    "coverage": "npm test && jest-coverage-badges --input \"./workdocs/coverage/coverage-summary.json\" --output \"./workdocs/badges\"",
-    "docs": "npx rimraf ./docs && mkdir docs && mkdir docs/assets && cp -r ./workdocs/assets ./docs/assets && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs; npm remove better-docs taffydb"
+    "coverage": "npm run test:all && jest-coverage-badges --input \"./workdocs/coverage/coverage-summary.json\" --output \"./workdocs/badges\"",
+    "docs": "npx rimraf ./docs && mkdir docs && cp -r ./workdocs/assets ./docs/assets && cp -r ./workdocs/coverage ./docs/coverage && npm install better-docs taffydb && npx markdown-include ./mdCompile.json && npx jsdoc -c jsdocs.json -t ./node_modules/better-docs; npm remove better-docs taffydb"
   },
   "files": [
     "dist",
@@ -50,6 +50,8 @@
     "@types/node": "^20.6.3",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
+    "gulp-replace": "^1.1.4",
+    "gulp-run-command": "^0.0.10",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-uglify": "^3.0.2",

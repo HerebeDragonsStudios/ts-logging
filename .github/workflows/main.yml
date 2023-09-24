@@ -19,7 +19,7 @@ jobs:
           path: |
             node_modules/
             .npm/
-          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+          key: dependencies-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
       - name: Installing Dependencies
         run: npm ci --cache .npm --prefer-offline
 
@@ -38,14 +38,14 @@ jobs:
           path: |
             node_modules/
             .npm/
-          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+          key: dependencies-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
       - name: Caching build code
         uses: actions/cache@v3.3.2
         with:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ github.workspace }}
+          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
       - name: Building solution...
         run: npm run build:prod
 
@@ -64,20 +64,25 @@ jobs:
           path: |
             node_modules/
             .npm/
-          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+          key: dependencies-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
       - name: Restoring built solution...
         uses: actions/cache@v3.3.2
         with:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ github.workspace }}
+          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
       - name: Caching test results...
         uses: actions/cache@v3.3.2
         with:
           path: workdocs/coverage/
-          key: test-${{ github.ref }}-${{ github.workspace }}
-      - run: npm run test:ci
+          key: test-${{ github.ref }}
+      - run: npm run coverage
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: workdocs/coverage
 
   npm-deploy:
     needs:
@@ -100,14 +105,14 @@ jobs:
           path: |
             node_modules/
             .npm/
-          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+          key: dependencies-${{ github.ref }}
       - name: Restoring built solution...
         uses: actions/cache@v3.3.2
         with:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ github.workspace }}
+          key: build-${{ github.ref }}
       - name: Publishing package ${NPM_PACKAGE_NAME} version ${NPM_PACKAGE_VERSION} to NPM registry.
         uses: JS-DevTools/npm-publish@v2
         with:
@@ -130,12 +135,16 @@ jobs:
           path: |
             node_modules/
             .npm/
-          key: dependencies-${{ github.ref }}-${{ github.workspace }}${{ hashFiles('**/package-lock.json') }}
+          key: dependencies-${{ github.ref }}
       - name: Restoring Test Results...
         uses: actions/cache@v3.3.2
         with:
           path: workdocs/coverage/
-          key: test-${{ github.ref }}-${{ github.workspace }}
+          key: test-${{ github.ref }}
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results
       - run: npm run docs
       - run: mv docs public
       - name: Uploading Documentation

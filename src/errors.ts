@@ -3,113 +3,9 @@ import {Callback, LOGGER_LEVELS, LoggerMessage} from "./constants";
 import {stringFormat} from "./utils";
 
 /**
- *
- * @param {string} message
- * @param {number} level
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function loggedCallback
- *
- * @category Callbacks
+ * @namespace Errors
  */
-export function loggedCallback(this: any, message: LoggerMessage, level: number, callback: Callback, ...args: any[]) {
-    if (message instanceof LoggedError && message.loggedAt && message.loggedAt >= level)
-        return callback(message);
-    if (message instanceof LoggedError){
-        if (message.loggedAt !== undefined && message.loggedAt < level){
-            getLogger().report(message, level, this && this.name !== "loggedCallback" ? this : undefined, ...args)
-            message.loggedAt = level;
-        }
-        return callback(message);
-    }
-    const error: LoggedError = new LoggedError(message, this && this.name !== "loggedCallback" ? this : undefined, level, ...args);
-    callback(error);
-}
 
-/**
- *
- * @param {LoggerMessage} message
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function allCallback
- *
- * @category Callbacks
- */
-export function allCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
-    loggedCallback.call(this, message, LOGGER_LEVELS.ALL, callback, ...args);
-}
-
-/**
- *
- * @param {LoggerMessage} message
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function debugCallback
- *
- * @category Callbacks
- */
-export function debugCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
-    loggedCallback.call(this, message, LOGGER_LEVELS.DEBUG, callback, ...args);
-}
-
-/**
- *
- * @param {LoggerMessage} message
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function infoCallback
- *
- * @category Callbacks
- */
-export function infoCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
-    loggedCallback.call(this, message, LOGGER_LEVELS.INFO, callback, ...args);
-}
-
-/**
- *
- * @param {LoggerMessage} message
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function warningCallback
- *
- * @category Callbacks
- */
-export function warningCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
-    loggedCallback.call(this, message, LOGGER_LEVELS.WARN, callback, ...args);
-}
-
-/**
- *
- * @param {LoggerMessage} message
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function errorCallback
- *
- * @category Callbacks
- */
-export function errorCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
-    loggedCallback.call(this, message, LOGGER_LEVELS.ERROR, callback, ...args);
-}
-
-/**
- *
- * @param {LoggerMessage} message
- * @param {Callback} callback
- * @param {any[]} [args]
- *
- * @function criticalCallback
- *
- * @category Callbacks
- */
-export function criticalCallback(this: any, message: LoggerMessage, callback: Callback, ...args: any[]) {
-    loggedCallback.call(this, message, LOGGER_LEVELS.CRITICAL, callback, ...args);
-}
 
 /**
  * Wrapper Class for Logged Errors
@@ -132,9 +28,9 @@ export class LoggedError extends Error {
     issuer?: any;
 
     constructor(error: LoggerMessage, issuer: any = undefined, level: number = LOGGER_LEVELS.ALL, ...args: any[]) {
-        super(error instanceof Error ? error.message : (typeof error === 'string' ? stringFormat(error, ...args) : error));
+        super(error instanceof Error ? error.message : (typeof error === 'string' ? stringFormat(error, ...args) : error) as string);
         this.name = LoggedError.constructor.name;
-        this.loggedAt = error instanceof Error && error.name === LoggedError.constructor.name ? error.loggedAt : undefined;
+        this.loggedAt = error instanceof Error && error.name === LoggedError.constructor.name ? (error as LoggedError).loggedAt : undefined;
         this.issuer = issuer;
 
         // @ts-ignore

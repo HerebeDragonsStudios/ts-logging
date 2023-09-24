@@ -29,6 +29,10 @@
             "hideGenerator": true,
             "navLinks": [
                 {
+                    "label": "Test Results",
+                    "href": "assets/coverage"
+                },
+                {
                     "label": "Gitlab Repository",
                     "href": "https://github.com:HerebeDragonsStudios/ts-logging#readme"
                 }

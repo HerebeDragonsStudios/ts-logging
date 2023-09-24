@@ -1,4 +1,8 @@
 /**
+ * @namespace Utils
+ */
+
+/**
  * Util function to provide string format functionality similar to C#'s string.format
  *
  * @param {string} string
@@ -7,7 +11,7 @@
  *
  * @function stringFormat
  *
- * @category Utils
+ * @memberOf Utils
  */
 import {DAYS_OF_WEEK_NAMES, MONTH_NAMES} from "./constants";
 
@@ -17,7 +21,7 @@ import {DAYS_OF_WEEK_NAMES, MONTH_NAMES} from "./constants";
  *
  * @function stringFormat
  *
- * @memberOf logging.logging
+ * @memberOf Utils
  */
 export function getObjectName(obj: any): string | undefined {
     if (!obj)
@@ -39,7 +43,7 @@ export function getObjectName(obj: any): string | undefined {
  *
  * @function stringFormat
  *
- * @category Utils
+ * @memberOf Utils
  */
 export function stringFormat(string: string, ...args: string[]){
     return string.replace(/{(\d+)}/g, function(match, number) {
@@ -75,7 +79,7 @@ export function stringFormat(string: string, ...args: string[]){
  *
  * @function formatDate
  *
- * @category Utils
+ * @memberOf Utils
  */
 export function formatDate(date: Date, patternStr: string = 'yyyy/MM/dd'){
     const day: number = date.getDate(),
@@ -135,7 +139,7 @@ export function formatDate(date: Date, patternStr: string = 'yyyy/MM/dd'){
  *
  * @function twoDigitPad
  *
- * @category Utils
+ * @memberOf Utils
  */
 export function twoDigitPad(num: number): string {
     return num < 10 ? "0" + num : num.toString();

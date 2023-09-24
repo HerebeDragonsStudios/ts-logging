@@ -2,6 +2,10 @@ import {formatDate, getObjectName, stringFormat} from "./utils";
 import {DEFAULT_TIMESTAMP_FORMAT, LOGGER_LEVELS, LoggerMessage, LOGGING_MSG} from "./constants";
 
 /**
+ * @namespace Logging
+ */
+
+/**
  * @interface Logger
  */
 export interface Logger {
@@ -127,7 +131,7 @@ export class LoggerImp implements Logger {
             message = `[${Object.keys(LOGGER_LEVELS)[logLevel]}]${issuer ? '' : " - "}${message}`;
         if (this.useTimestamp)
             message = `[${formatDate(new Date(), this.timestampFormat)}]${message}`;
-        return stringFormat(message, ...args);
+        return stringFormat(message as string, ...args);
     }
 
     /**
@@ -223,7 +227,7 @@ let currentLogger: Logger;
  *
  * @function getLogger
  *
- * @category Logging
+ * @memberOf Logging
  */
 export function getLogger() {
     if (!currentLogger)
@@ -238,7 +242,7 @@ export function getLogger() {
  *
  * @function setLogger
  *
- * @category Logging
+ * @memberOf Logging
  */
 export function setLogger(logger: Logger) {
     currentLogger = logger;
@@ -252,7 +256,7 @@ export function setLogger(logger: Logger) {
  *
  * @function info
  *
- * @category Logging
+ * @memberOf Logging
  */
 export const info = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().info(message, this, ...args);
@@ -264,7 +268,7 @@ export const info = function (this: any, message: LoggerMessage, ...args: any[])
  *
  * @function all
  *
- * @category Logging
+ * @memberOf Logging
  */
 export const all = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().all(message, this, ...args);
@@ -276,7 +280,7 @@ export const all = function (this: any, message: LoggerMessage, ...args: any[]) 
  *
  * @function debug
  *
- * @category Logging
+ * @memberOf Logging
  */
 export const debug = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().debug(message, this, ...args);
@@ -288,7 +292,7 @@ export const debug = function (this: any, message: LoggerMessage, ...args: any[]
  *
  * @function warn
  *
- * @category Logging
+ * @memberOf Logging
  */
 export const warn = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().warn(message, this, ...args);
@@ -300,7 +304,7 @@ export const warn = function (this: any, message: LoggerMessage, ...args: any[])
  *
  * @function error
  *
- * @category Logging
+ * @memberOf Logging
  */
 export const error = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().error(message, this, ...args);
@@ -312,7 +316,7 @@ export const error = function (this: any, message: LoggerMessage, ...args: any[]
  *
  * @function critical
  *
- * @category Logging
+ * @memberOf Logging
  */
 export const critical = function (this: any, message: LoggerMessage, ...args: any[]) {
     getLogger().critical(message, this, ...args);

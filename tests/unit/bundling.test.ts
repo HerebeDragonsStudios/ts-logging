@@ -1,5 +1,4 @@
 import {Logger} from "../../src";
-import {getLogger} from "../../lib"; // at least one import is needed so the file is considered a module byt jest
 
 describe("Distribution Tests", () => {
     it ("reads lib", () => {
