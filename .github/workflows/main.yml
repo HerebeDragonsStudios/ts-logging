@@ -1,4 +1,4 @@
-name: herebedragons-studios/ts-logging
+name: Main Workflow
 on:
   push:
     branches: [ master ]
@@ -95,19 +95,19 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checking out code
+        if: startsWith(github.ref, 'refs/tags')
         uses: actions/checkout@4
-        if: startsWith(github.ref, 'refs/tags')
       - name: Restoring Node Modules
-        uses: actions/cache@v3
         if: startsWith(github.ref, 'refs/tags')
+        uses: actions/cache@v3
         with:
           path: |
             node_modules/
             .npm/
           key: dependencies-${{ github.ref }}
       - name: Restoring built solution...
-        uses: actions/cache@v3
         if: startsWith(github.ref, 'refs/tags')
+        uses: actions/cache@v3
         with:
           path: |
             dist/
@@ -119,12 +119,12 @@ jobs:
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags')
         uses: softprops/action-gh-release@v1
-          with:
-            files: |
-              README.md
-              LICENSE.md
-              Changelog.md
-              lib/*
+        with:
+          files: |
+            README.md
+            LICENSE.md
+            Changelog.md
+            lib/*
 
   pages:
     needs: tests
