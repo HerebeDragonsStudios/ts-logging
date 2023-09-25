@@ -92,6 +92,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:18
+    env:
+      GITBUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
     timeout-minutes: 60
     steps:
       - name: Checking out code
