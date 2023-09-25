@@ -1,0 +1,51 @@
+name: Main Workflow
+on:
+  push:
+    release:
+      types: [ published ]
+    branches: [ master ]
+    paths: [ workdocs ]
+    pull_request:
+
+jobs:
+  pages:
+    needs: tests
+    runs-on: ubuntu-latest
+    container:
+      image: node:18
+    timeout-minutes: 60
+    continue-on-error: true
+    permissions:
+      contents: read
+      packages: write # allow GITHUB_TOKEN to push to branch
+    steps:
+      - name: Checking out code
+        uses: actions/checkout@v4
+      - name: Restoring Node Modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules/
+            .npm/
+          key: dependencies-${{ github.ref }}
+      - name: Restoring Test Results...
+        uses: actions/cache@v3
+        with:
+          path: workdocs/coverage/
+          key: test-${{ github.ref }}
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results
+      - run: npm run docs
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions
