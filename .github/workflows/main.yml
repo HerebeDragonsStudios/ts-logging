@@ -158,20 +158,12 @@ jobs:
         with:
           name: test-results
       - run: npm run docs
-      - run: mv docs public
-      - name: Uploading Documentation
-        uses: actions/upload-artifact@v3
-        if: success()
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          name: test-results
-          path: public
-      - name: Install rsync
-        run: |
-          apt-get update && apt-get install -y rsync git
-      - name: Deploying Documentation Website
-        uses: JamesIves/github-pages-deploy-action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions
-        with:
-          branch: gh-pages
-          folder: public
+          path: './docs'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
