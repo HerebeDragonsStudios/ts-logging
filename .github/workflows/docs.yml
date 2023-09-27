@@ -42,7 +42,7 @@ jobs:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          name: test-results-$BRANCH_NAME
+          name: "test-results-$BRANCH_NAME"
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: main.yml
           workflow_conclusion: success
