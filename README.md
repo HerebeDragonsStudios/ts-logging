@@ -1,7 +1,8 @@
-[![Banner](../assets/banner.png)](https://www.glass-h2020.eu/)
+![Banner](assets/banner.png)
 
 #### Status
-![example workflow](https://github.com/herebedragonsstudios/ts-logging/actions/workflows/main.yml/badge.svg)
+![Main](https://github.com/herebedragonsstudios/ts-logging/actions/workflows/main.yml/badge.svg)
+![Docs](https://github.com/herebedragonsstudios/ts-logging/actions/workflows/docs.yml/badge.svg)
 ![coverage](https://gitlab.com/glass-project1/wallet/logging/badges/main/coverage.svg?job=coverage)
 
 
@@ -38,6 +39,12 @@ instead.
 
 
 
+
+Simple logging implementation.
+
+Allows replacing the implementation and give access to static methods and method binding.
+
+Also includes method logging decorators and a lib version caching system for debugging purposes
 
 ### Repository Structure
 
