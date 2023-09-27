@@ -27,12 +27,12 @@ In order to use the logging package, we need to follow a list of steps presented
 
 To install as a dependency do:
 ```sh
-$ npm install @herebedragonsstudios/ts-logging
+$ npm install @herebedragonsstudios1/ts-logging
 ```
 
 To install as a dev dependency do:
 ```sh
-$ npm install @herebedragonsstudios/ts-logging --save-dev
+$ npm install @herebedragonsstudios1/ts-logging --save-dev
 ```
 instead.
 

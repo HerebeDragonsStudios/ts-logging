@@ -30,11 +30,11 @@
             "navLinks": [
                 {
                     "label": "Test Results",
-                    "href": "assets/coverage"
+                    "href": "coverage"
                 },
                 {
-                    "label": "Gitlab Repository",
-                    "href": "https://github.com:HerebeDragonsStudios/ts-logging#readme"
+                    "label": "Repository",
+                    "href": "https://github.com:HerebeDragonsStudios/ts-logging"
                 }
             ]
         },

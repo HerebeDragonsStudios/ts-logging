@@ -134,7 +134,7 @@ exports.prod = series(
 function docs(){
     const copyFiles = (source, destination) => {
         return function copyFiles(){
-            return src(source , { base: '.' }).pipe(dest(destination));
+            return src(source + "/**/*" , { base: source }).pipe(dest(destination));
         }
     }
 
