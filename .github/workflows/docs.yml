@@ -1,11 +1,11 @@
 name: Documentation
 on:
+  release:
+    types: [ created ]
   push:
-    release:
-      types: [ published ]
     branches: [ master ]
     paths: [ workdocs ]
-    pull_request:
+  pull_request:
 
 jobs:
   pages:
