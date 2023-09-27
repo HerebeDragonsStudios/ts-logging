@@ -36,11 +36,10 @@ jobs:
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}
-      - name: Calculating Branch
-        - if: github.event_name == 'pull_request'
+      - if: github.event_name == 'pull_request'
         run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}"
-        - if: github.event_name != 'pull_request'
-          run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}"
+      - if: github.event_name != 'pull_request'
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}"
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
