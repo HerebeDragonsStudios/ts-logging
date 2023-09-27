@@ -6,10 +6,10 @@ on:
     branches: [ master ]
     paths: [ workdocs/** ]
   pull_request:
+  workflow_trigger:
 
 jobs:
   pages:
-    needs: tests
     runs-on: ubuntu-latest
     container:
       image: node:18

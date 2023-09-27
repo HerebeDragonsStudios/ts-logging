@@ -1,5 +1,6 @@
 ### Changelog
 
+This is meant to be reset every release and each PR should include a new entry here
 
 | Issue | Description                |
 |:-----:|:---------------------------|
