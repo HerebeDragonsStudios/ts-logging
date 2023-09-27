@@ -10,13 +10,23 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  BRANCH_NAME: $(echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}")
+
 jobs:
   pages:
     runs-on: ubuntu-latest
     container:
       image: node:18
     timeout-minutes: 60
-    permissions: write-all
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checking out code
         uses: actions/checkout@v4
@@ -32,14 +42,10 @@ jobs:
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}
-      - if: github.event_name == 'pull_request'
-        run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
-      - if: github.event_name != 'pull_request'
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          name: "test-results-$BRANCH_NAME"
+          name: test-results-$BRANCH_NAME
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: main.yml
           workflow_conclusion: success

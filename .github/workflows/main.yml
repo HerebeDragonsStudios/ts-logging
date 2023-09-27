@@ -57,6 +57,8 @@ jobs:
     container:
       image: node:18
     timeout-minutes: 60
+    env:
+      BRANCH_NAME: $(echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}")
     steps:
       - name: Checking out code
         uses: actions/checkout@v4
@@ -81,14 +83,10 @@ jobs:
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}
-      - if: github.event_name == 'pull_request'
-        run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
-      - if: github.event_name != 'pull_request'
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: "test-results-$BRANCH_NAME"
+          name: test-results-$BRANCH_NAME
           path: workdocs/coverage
 
   release:
