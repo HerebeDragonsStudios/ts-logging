@@ -36,14 +36,20 @@ jobs:
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}
+      - name: Calculating Branch
+        - if: github.event_name == 'pull_request'
+        run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}"
+        - if: github.event_name != 'pull_request'
+          run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}"
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          name: test-results-${{ github.ref }}
+          name: test-results-${BRANCH_NAME}
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: main.yml
           workflow_conclusion: success
-      - run: npm run docs
+      - name: Build Pages from Source
+        run: npm run docs
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

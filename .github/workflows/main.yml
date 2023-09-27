@@ -81,10 +81,15 @@ jobs:
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}
+      - name: Calculating Branch
+        - if: github.event_name == 'pull_request'
+          run: echo "BRANCH_NAME=${GITHUB_HEAD_REF}"
+        - if: github.event_name != 'pull_request'
+          run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}"
       - name: Archive code coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: test-results-${{ github.ref }}
+          name: test-results-${BRANCH_NAME}
           path: workdocs/coverage
 
   release:
