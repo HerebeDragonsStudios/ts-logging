@@ -4,7 +4,9 @@ on:
     types: [ created ]
   push:
     branches: [ master ]
-    paths: [ workdocs/** ]
+    paths:
+      - workdocs/**
+      - .github/workflows/docs.yml
   pull_request:
   workflow_dispatch:
 
@@ -34,10 +36,13 @@ jobs:
         with:
           path: workdocs/coverage/
           key: test-${{ github.ref }}
-      - name: Download a single artifact
-        uses: actions/download-artifact@v3
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
         with:
-          name: test-results
+          name: test-results-${{ github.ref }}
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: main.yml
+          workflow_conclusion: success
       - run: npm run docs
       - name: Setup Pages
         uses: actions/configure-pages@v3
