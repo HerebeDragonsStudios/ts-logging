@@ -150,8 +150,8 @@ jobs:
       - tests
       - build
     runs-on: ubuntu-latest
-      container:
-        image: node:18
+    container:
+      image: node:18
     steps:
       - name: Checking out code
         uses: actions/checkout@v4
