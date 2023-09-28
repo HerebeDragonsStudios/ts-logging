@@ -8,11 +8,12 @@ on:
   release:
     types: [created]
 
+concurrency:
+  group: npm-${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   publish-npm:
-    needs:
-      - tests
-      - build
     runs-on: ubuntu-latest
     container:
       image: node:18
