@@ -11,11 +11,14 @@ on:
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
-    container:
-      image: node:18
     steps:
       - name: Checking out code
         uses: actions/checkout@v4
+      - name: Setting up node and npmrc
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: 'https://registry.npmjs.org'
       - name: Restoring Node Modules
         uses: actions/cache@v3
         with:
@@ -30,9 +33,7 @@ jobs:
             dist/
             lib/
           key: build-${{ github.ref }}
-      - name: Setting up NPM reference
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: Publishing to NPM
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish
