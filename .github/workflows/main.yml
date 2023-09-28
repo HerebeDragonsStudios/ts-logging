@@ -60,7 +60,7 @@ jobs:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
+          key: build-${{ github.ref }}
       - name: Building solution...
         run: npm run build:prod
 
@@ -86,7 +86,7 @@ jobs:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
+          key: build-${{ github.ref }}
       - name: Running tests & collecting coverage
         run: npm run coverage
       - name: Caching test results...
@@ -127,7 +127,7 @@ jobs:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
+          key: build-${{ github.ref }}
       - name: Create Change Log
         run: cp ./workdocs/release_notes.md ./Changelog.md
       - name: Create Release
@@ -149,7 +149,6 @@ jobs:
     needs:
       - tests
       - build
-      - release
     runs-on: ubuntu-latest
     steps:
       - name: Checking out code
@@ -171,7 +170,7 @@ jobs:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
+          key: build-${{ github.ref }}
       - name: Setting up node and npmrc
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
