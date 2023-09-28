@@ -12,7 +12,8 @@ const webpack = require('webpack-stream');
 const run = require("gulp-run-command").default
 
 let {name, version} = require('./package.json');
-
+if (name.includes("/"))
+    name = name.split("/")[1]
 const VERSION_STRING = "##VERSION##"
 
 function patchFiles (isDev){
