@@ -52,6 +52,8 @@ jobs:
             node_modules/
             .npm/
           key: dependencies-${{ github.ref }}-${{ hashFiles('**/package-lock.json') }}
+      - name: Building solution...
+        run: npm run build:prod
       - name: Caching build code
         uses: actions/cache@v3
         with:
@@ -59,8 +61,6 @@ jobs:
             dist/
             lib/
           key: build-${{ github.ref }}
-      - name: Building solution...
-        run: npm run build:prod
 
   tests:
     needs: build
