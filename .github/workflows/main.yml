@@ -58,7 +58,7 @@ jobs:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
+          key: build-${{ github.ref }}
       - name: Building solution...
         run: npm run build:prod
 
@@ -84,7 +84,7 @@ jobs:
           path: |
             dist/
             lib/
-          key: build-${{ github.ref }}-${{ hashFiles('**/src/**/*') }}
+          key: build-${{ github.ref }}
       - name: Running tests & collecting coverage
         run: npm run coverage
       - name: Caching test results...
