@@ -166,7 +166,7 @@ jobs:
             lib/
           key: build-${{ github.ref }}
       - name: Setting up node and npmrc
-          run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
   registry=https://registry.npmjs.org/
   always-auth=true" > .npmrc
       - name: Publishing to NPM
