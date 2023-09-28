@@ -132,11 +132,12 @@ jobs:
         if: startsWith(github.ref, 'refs/tags')
         run: cp ./workdocs/release_notes.md ./Changelog.md
       - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
         if: startsWith(github.ref, 'refs/tags')
         uses: softprops/action-gh-release@v1
-        env:
-          token: ${{ secrets.WORKFLOW_TOKEN }}
         with:
+          token: ${{ secrets.WORKFLOW_TOKEN }}
           files: |
             README.md
             LICENSE.md

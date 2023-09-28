@@ -31,8 +31,8 @@ jobs:
             lib/
           key: build-${{ github.ref }}
       - name: Setting up NPM reference
-        run: echo "//npm.pkg.github.com/:_authToken=${CI_JOB_TOKEN}" > .npmrc
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
       - name: Publishing to NPM
-        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
