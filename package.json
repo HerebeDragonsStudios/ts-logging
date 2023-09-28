@@ -20,8 +20,8 @@
     "docs": "npx rimraf ./docs && mkdir docs && npm install better-docs taffydb && gulp docs; npm remove better-docs taffydb"
   },
   "files": [
-    "dist",
-    "lib",
+    "dist/",
+    "lib/",
     "Changelog.md"
   ],
   "repository": {

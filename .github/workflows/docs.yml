@@ -1,7 +1,5 @@
 name: Documentation
 on:
-  release:
-    types: [ created ]
   push:
     branches: [ master ]
     paths:
