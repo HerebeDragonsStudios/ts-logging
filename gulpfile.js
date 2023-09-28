@@ -13,7 +13,7 @@ const run = require("gulp-run-command").default
 
 let {name, version} = require('./package.json');
 if (name.includes("/"))
-    name = name.split("/")[1]
+    name = name.split("/")[1] // for scopes packages
 const VERSION_STRING = "##VERSION##"
 
 function patchFiles (isDev){
@@ -123,7 +123,7 @@ exports.dev = series(
 )
 exports.prod = series(
     parallel(
-        exportDefault(false),
+        exportDefault(true),
         exportESMDist, exportJSDist)
     ,
     parallel(
