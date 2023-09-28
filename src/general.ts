@@ -98,12 +98,12 @@ export interface Logger {
  * @implements Logger
  */
 export class LoggerImp implements Logger {
-    private level: number;
+    protected level: number;
 
-    private readonly useTimestamp: boolean;
-    private readonly logLevel: boolean;
-    private readonly timestampFormat: string;
-    private readonly logStackTrace: boolean;
+    protected readonly useTimestamp: boolean;
+    protected readonly logLevel: boolean;
+    protected readonly timestampFormat: string;
+    protected readonly logStackTrace: boolean;
 
     constructor(defaultLevel: number = LOGGER_LEVELS.INFO, useTimestamp = true, logLevel: boolean = true, logStackTrace: boolean = false, timestampFormat = DEFAULT_TIMESTAMP_FORMAT) {
         this.level = defaultLevel;
