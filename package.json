@@ -1,6 +1,6 @@
 {
   "name": "ts-logging",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Logging extension for Typescript/Javascript projects",
   "main": "./lib/index.js",
   "module": "./lib/index.js",
